@@ -1,0 +1,71 @@
+'use client'
+
+import Image from 'next/image'
+
+export default function AboutSection() {
+  return (
+    <section className="py-20 px-6 md:px-16 bg-white">
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-14">
+        {/* LEFT IMAGES AREA */}
+        <div className="relative flex flex-col items-center">
+          {/* TOP ROW — TWO IMAGES SIDE BY SIDE */}
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-5 mb-5">
+            {/* Left Image */}
+            <div className="relative w-[260px] h-[180px] md:w-[300px] md:h-[200px] rounded-2xl overflow-hidden">
+              <div className="absolute -top-4 -left-4 w-16 h-16 md:w-20 md:h-20 bg-[#558BFF] rounded-md z-[-1]" />
+              <Image
+                src="/images/about-img1.jpg"
+                alt="Group session"
+                fill
+                className="object-cover rounded-2xl"
+              />
+            </div>
+
+            {/* Right Image */}
+            <div className="relative w-[260px] h-[180px] md:w-[320px] md:h-[230px] rounded-2xl overflow-hidden">
+              <div className="absolute -bottom-4 -right-4 w-16 h-16 md:w-20 md:h-24 bg-[#558BFF] rounded-md z-[-1]" />
+              <Image
+                src="/images/aboutimg2.jpg"
+                alt="Therapy discussion"
+                fill
+                className="object-cover rounded-2xl"
+              />
+            </div>
+          </div>
+
+          {/* BOTTOM IMAGE — CENTERED */}
+          <div className="relative w-[300px] h-[200px] md:w-[450px] md:h-[310px] rounded-2xl overflow-hidden">
+            <Image
+              src="/images/aboutimg3.jpg"
+              alt="Coaching session"
+              fill
+              className="object-cover rounded-2xl"
+            />
+          </div>
+        </div>
+
+        {/* RIGHT TEXT AREA */}
+        <div className="space-y-4 text-center md:text-left">
+          <p className="text-sm text-gray-500">About Us</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 leading-snug">
+            I Help You To <span className="text-[#558BFF]">Prioritize</span>{' '}
+            Your Mental Health
+          </h2>
+          <p className="text-gray-600 leading-relaxed text-sm md:text-base">
+            I’m David Burden, a personal coach dedicated to helping individuals
+            find clarity and purpose in their lives. Through mindful coaching,
+            workshops, writing, and my podcast, I provide tools and insights to
+            help you navigate life’s complexities with confidence and peace. The
+            Unburdened Mind represents a journey toward mental clarity,
+            emotional balance, and authentic living. Together, we’ll work to
+            remove the burdens that hold you back from your true potential.
+          </p>
+
+          <button className="bg-[#558BFF] text-white px-6 py-2 rounded-md text-sm hover:bg-[#4575e6] transition-all">
+            Ask David
+          </button>
+        </div>
+      </div>
+    </section>
+  )
+}
