@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-white text-black`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-[#F8F9FA] text-black`}
         suppressHydrationWarning
       >
         {/* All client-side providers (React Query, Zustand, etc.) */}

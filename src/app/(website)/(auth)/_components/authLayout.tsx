@@ -5,15 +5,13 @@ interface AuthLayoutProps {
 export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
-      {/* Left Side Gradient Background */}
+      {/* Left Side with Only Background Image */}
       <div
-        className="hidden md:flex items-center justify-center"
+        className="hidden md:flex items-center justify-center bg-cover bg-center"
         style={{
-          width: '100%',
-          height: '100%',
-          opacity: 0.8,
-          background:
-            'linear-gradient(281.69deg, #1E449E -0.29%, #5376C9 48.99%, #1D397D 101.56%)',
+          backgroundImage: "url('/images/auth.jpg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
         }}
       ></div>
 
