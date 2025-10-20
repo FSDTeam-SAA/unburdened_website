@@ -22,7 +22,7 @@ export default function HeroSection() {
           </p>
 
           <div>
-            <Button className="bg-[#5A8DEE] hover:bg-[#4b7bd0] text-white  py-2 rounded px-16 md:px-20 transition-all duration-200">
+            <Button className="bg-[#5A8DEE] hover:bg-[#4b7bd0] text-white  py-2 rounded px-16 md:px-24 transition-all duration-200">
               Ask David
             </Button>
           </div>
