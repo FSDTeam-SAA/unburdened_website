@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 export default function AboutSection() {
   return (
-    <section className=" py-12 md:py-16 lg:py-20 px-6 bg-white">
+    <section className=" py-12 md:py-16 px-4 bg-white">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-14">
         {/* LEFT IMAGES AREA */}
         <div className="relative flex flex-col items-center">

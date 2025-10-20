@@ -196,7 +196,7 @@ export function Footer({
         </div>
 
         {/* Bottom Border and Copyright */}
-        <div className="border-t border-gray-300 pt-6">
+        <div className="border-t border-[#90B3F4] pt-6">
           <p className="text-center text-[#68706A] text-sm">{copyright}</p>
         </div>
       </div>

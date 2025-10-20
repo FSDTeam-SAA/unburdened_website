@@ -23,7 +23,7 @@ export function HeroBanner({
   description,
 }: HeroBannerProps) {
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto px-4">
       <div
         className="relative rounded-[20px] overflow-hidden flex items-center justify-center"
         style={{
@@ -31,23 +31,22 @@ export function HeroBanner({
           backgroundImage: `url(${image})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          opacity: 1,
         }}
       >
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black/30" />
+        {/* Subtle Dark Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" />
 
         {/* Content */}
         <div className="relative z-10 text-center px-8 max-w-3xl">
           {/* Quote variant */}
           {quote && (
             <>
-              <div className="text-white text-lg md:text-2xl font-medium mb-6 leading-relaxed ">
+              <div className="text-white text-lg md:text-2xl font-medium mb-6 leading-relaxed">
                 {quote}
-                <p className="font-light text-base">{writer}</p>
+                <p className="font-light text-base mt-2">{writer}</p>
               </div>
               {buttonText && (
-                <Link href={'/contact'}>
+                <Link href="/contact">
                   <Button className="px-6 md:px-16">{buttonText}</Button>
                 </Link>
               )}
@@ -61,7 +60,7 @@ export function HeroBanner({
                 {title}
               </h1>
               {description && (
-                <p className="text-white text-lg md:text-xl font-light leading-relaxed">
+                <p className="text-white text-base md:text-lg font-medium leading-[150%]">
                   {description}
                 </p>
               )}

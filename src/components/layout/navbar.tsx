@@ -61,12 +61,14 @@ export default function Navbar() {
 
           {/* Right - Buttons */}
           <div className="hidden md:flex items-center space-x-3">
-            <Button
-              variant="outline"
-              className="border border-[#5A8DEE] px-8 bg-transparent text-[#5A8DEE] hover:bg-[#5A8DEE] hover:text-white transition-all duration-200"
-            >
-              Ask David
-            </Button>
+            <Link href={'/contact'}>
+              <Button
+                variant="outline"
+                className="border border-[#5A8DEE] px-8 bg-transparent text-[#5A8DEE] hover:bg-[#5A8DEE] hover:text-white transition-all duration-200"
+              >
+                Ask David
+              </Button>
+            </Link>
 
             {isLoggedIn ? (
               <div className="relative w-9 h-9">
@@ -105,9 +107,11 @@ export default function Navbar() {
 
           {/* Mobile Actions */}
           <div className="pt-2 flex flex-col space-y-2">
-            <Button variant="default" className="w-full">
-              Ask David
-            </Button>
+            <Link href={'/contact'}>
+              <Button variant="default" className="w-full">
+                Ask David
+              </Button>
+            </Link>
 
             {isLoggedIn ? (
               <div className="flex items-center space-x-2 mt-2">

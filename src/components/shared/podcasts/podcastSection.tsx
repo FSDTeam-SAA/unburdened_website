@@ -93,7 +93,7 @@ export function PodcastSection() {
   const currentItems = demoData.slice(startIndex, startIndex + itemsPerPage)
 
   return (
-    <section className="py-12 md:py-16 lg:py-24 px-4 md:px-10 bg-white">
+    <section className="py-12 md:py-16 lg:py-20 px-4 md:px-10 bg-white">
       <div className="container mx-auto">
         {/* Header */}
         <div className="mb-8">
