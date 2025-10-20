@@ -1,4 +1,5 @@
 // import Footer from '@/components/Footer/Footer'
+import { Footer } from '@/components/layout/footer'
 import Navbar from '@/components/layout/navbar'
 
 export default async function WebsiteLayout({
@@ -11,7 +12,7 @@ export default async function WebsiteLayout({
       <Navbar />
 
       <div className="min-h-[calc(100vh-100px)]">{children}</div>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   )
 }

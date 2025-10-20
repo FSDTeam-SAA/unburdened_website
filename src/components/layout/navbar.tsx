@@ -25,11 +25,11 @@ export default function Navbar() {
   ]
 
   return (
-    <nav className="bg-[#5A8DEE14] backdrop-blur-md fixed w-full z-50 shadow-sm">
+    <nav className="bg-[#5A8DEE14] backdrop-blur-3xl fixed w-full z-50 shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Left - Logo */}
-          <div className="flex-shrink-0 text-[#5A8DEE] font-semibold text-lg md:text-xl">
+          <div className="flex-shrink-0 text-[#5A8DEE] font-semibold text-lg md:text-xl font-sans">
             The <span className="font-bold text-2xl">Unburdened</span> Mind
           </div>
 
@@ -61,12 +61,14 @@ export default function Navbar() {
 
           {/* Right - Buttons */}
           <div className="hidden md:flex items-center space-x-3">
-            <Button
-              variant="outline"
-              className="border border-[#5A8DEE] bg-transparent text-[#5A8DEE] hover:bg-[#5A8DEE] hover:text-white transition-all duration-200"
-            >
-              Ask David
-            </Button>
+            <Link href={'/contact'}>
+              <Button
+                variant="outline"
+                className="border border-[#5A8DEE] px-8 bg-transparent text-[#5A8DEE] hover:bg-[#5A8DEE] hover:text-white transition-all duration-200"
+              >
+                Ask David
+              </Button>
+            </Link>
 
             {isLoggedIn ? (
               <div className="relative w-9 h-9">
@@ -79,7 +81,7 @@ export default function Navbar() {
                 />
               </div>
             ) : (
-              <Button asChild variant="default" className="px-8">
+              <Button asChild variant="default" className="px-10">
                 <Link href="/login">Login</Link>
               </Button>
             )}
@@ -105,9 +107,11 @@ export default function Navbar() {
 
           {/* Mobile Actions */}
           <div className="pt-2 flex flex-col space-y-2">
-            <Button variant="default" className="w-full">
-              Ask David
-            </Button>
+            <Link href={'/contact'}>
+              <Button variant="default" className="w-full">
+                Ask David
+              </Button>
+            </Link>
 
             {isLoggedIn ? (
               <div className="flex items-center space-x-2 mt-2">
