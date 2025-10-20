@@ -46,9 +46,9 @@ export default function AboutSection() {
 
         {/* RIGHT TEXT AREA */}
         <div className="space-y-4 text-center md:text-left">
-          <p className="text-sm text-gray-500">About Us</p>
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 leading-snug">
-            I Help You To <span className="text-[#558BFF]">Prioritize</span>{' '}
+          <p className="text-base font-medium text-[#1C2A39]">About Us</p>
+          <h2 className="text-2xl md:text-3xl lg:text-[40px] font-bold text-gray-800 leading-snug">
+            <span className="text-[#558BFF]">I Help You To Prioritize</span>{' '}
             Your Mental Health
           </h2>
           <p className="text-gray-600 leading-relaxed text-sm md:text-base">

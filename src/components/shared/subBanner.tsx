@@ -56,9 +56,7 @@ export function HeroBanner({
           {/* Title & Description variant */}
           {title && (
             <>
-              <h1 className="text-white text-3xl md:text-5xl font-bold mb-4">
-                {title}
-              </h1>
+              <h1 className="text-white text-3xl font-bold mb-4">{title}</h1>
               {description && (
                 <p className="text-white text-base md:text-lg font-medium leading-[150%]">
                   {description}

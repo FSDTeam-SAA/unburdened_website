@@ -105,7 +105,7 @@ export function BlogSection() {
         </div>
 
         {/* Blog Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 mt-12 md:mt-16">
           {currentItems.map((blog, index) => (
             <BlogCard key={index} {...blog} />
           ))}

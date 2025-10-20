@@ -107,7 +107,7 @@ export function PodcastSection() {
         </div>
 
         {/* Podcast Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 mt-12 ">
           {currentItems.map((podcast, index) => (
             <PodcastCard key={index} {...podcast} />
           ))}

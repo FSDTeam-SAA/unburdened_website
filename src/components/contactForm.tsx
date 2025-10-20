@@ -124,7 +124,7 @@ export function ContactForm() {
         {/* Terms */}
         <div className="text-sm text-gray-500">
           By submitting, you agree to our friendly{' '}
-          <Link href="/terms" className="text-[#5A8DEE] underline">
+          <Link href="/terms&conditions" className="text-[#5A8DEE] underline">
             Terms & Conditions
           </Link>{' '}
           and{' '}

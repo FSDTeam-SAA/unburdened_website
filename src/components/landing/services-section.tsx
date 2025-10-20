@@ -53,7 +53,7 @@ export function ServicesSection() {
           and book trusted services with ease.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-center">
+        <div className="grid grid-cols-1 mt-12 md:mt-16 lg:mt-20 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-center">
           {currentItems.map((service, idx) => (
             <ServiceCard key={idx} {...service} />
           ))}
