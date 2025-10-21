@@ -13,16 +13,16 @@ const page = () => {
       </div>
 
       {/* terms and conditions section */}
-      <div className="py-8 container mx-auto">
+      <div className="py-8 md:py-12 container mx-auto">
         <title>Terms and Conditions - The Urbanisense Mind</title>
         <meta
           name="description"
           content="Terms and Conditions for The Urbanisense Mind"
         />
 
-        <div className="mt-8 md:mt-12">
-          <header className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+        <div className="mt-8 md:mt-12 px-4">
+          <header className="text mb-8">
+            <h1 className="text-lg md:text-xl font-bold text-gray-800 mb-4">
               Terms and Conditions
             </h1>
             <p className="text-gray-600">
@@ -33,8 +33,8 @@ const page = () => {
           </header>
 
           <div className="prose prose-lg max-w-none">
-            <div className="border-t border-gray-200 pt-6">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            <div className=" pt-6">
+              <h2 className="text-base md:text-lg font-semibold text-gray-800 mb-4">
                 1. Acceptance of Terms
               </h2>
               <p className="text-gray-700 mb-4">
@@ -49,8 +49,8 @@ const page = () => {
               </p>
             </div>
 
-            <div className="border-t border-gray-200 pt-6">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            <div className=" pt-6">
+              <h2 className="text-base md:text-lg font-semibold text-gray-800 mb-4">
                 2. User Accounts
               </h2>
               <p className="text-gray-700 mb-4">
@@ -75,8 +75,8 @@ const page = () => {
               </p>
             </div>
 
-            <div className="border-t border-gray-200 pt-6">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            <div className=" pt-6">
+              <h2 className="text-base md:text-lg font-semibold text-gray-800 mb-4">
                 3. Use of Services
               </h2>
               <p className="text-gray-700 mb-4">
@@ -98,8 +98,8 @@ const page = () => {
               </ul>
             </div>
 
-            <div className="border-t border-gray-200 pt-6">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            <div className=" pt-6">
+              <h2 className="text-base md:text-lg  font-semibold text-gray-800 mb-4">
                 4. Payments and Fees
               </h2>
               <p className="text-gray-700 mb-4">
@@ -122,8 +122,8 @@ const page = () => {
               </ul>
             </div>
 
-            <div className="border-t border-gray-200 pt-6">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            <div className="pt-6">
+              <h2 className="text-base md:text-lg  font-semibold text-gray-800 mb-4">
                 5. Privacy and Data Protection
               </h2>
               <p className="text-gray-700">
@@ -137,8 +137,8 @@ const page = () => {
               </p>
             </div>
 
-            <div className="border-t border-gray-200 pt-6">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            <div className=" pt-6">
+              <h2 className="text-base md:text-lg font-semibold text-gray-800 mb-4">
                 6. Limitation of Liability
               </h2>
               <p className="text-gray-700">
@@ -153,8 +153,8 @@ const page = () => {
               </p>
             </div>
 
-            <div className="border-t border-gray-200 pt-6">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            <div className=" pt-6">
+              <h2 className="text-base md:text-lg font-semibold text-gray-800 mb-4">
                 7. Termination of Services
               </h2>
               <p className="text-gray-700">
@@ -167,8 +167,8 @@ const page = () => {
               </p>
             </div>
 
-            <div className="border-t border-gray-200 pt-6">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            <div className=" pt-6">
+              <h2 className="text-base md:text-lg  font-semibold text-gray-800 mb-4">
                 8. Modifications to Terms
               </h2>
               <p className="text-gray-700">
@@ -181,8 +181,8 @@ const page = () => {
               </p>
             </div>
 
-            <div className="border-t border-gray-200 pt-6">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            <div className=" pt-6">
+              <h2 className="text-base md:text-lg  font-semibold text-gray-800 mb-4">
                 9. Governing Law
               </h2>
               <p className="text-gray-700">
@@ -193,8 +193,8 @@ const page = () => {
               </p>
             </div>
 
-            <div className="border-t border-gray-200 pt-6">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            <div className=" pt-6">
+              <h2 className="text-base md:text-lg  font-semibold text-gray-800 mb-4">
                 Conclusion
               </h2>
               <p className="text-gray-700">

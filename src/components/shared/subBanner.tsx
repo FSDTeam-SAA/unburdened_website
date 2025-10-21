@@ -25,7 +25,7 @@ export function HeroBanner({
   return (
     <div className="container mx-auto px-4">
       <div
-        className="relative rounded-[20px] overflow-hidden flex items-center justify-center"
+        className="relative rounded-[10px] overflow-hidden flex items-center justify-center"
         style={{
           height: `${height}px`,
           backgroundImage: `url(${image})`,
