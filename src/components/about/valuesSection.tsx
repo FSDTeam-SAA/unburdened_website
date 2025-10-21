@@ -32,7 +32,7 @@ const values = [
 
 export function ValuesSection() {
   return (
-    <section className="py-16 md:py-20 lg:py-28 px-4 md:px-10 bg-[#F9FAFB]">
+    <section className="py-16 md:py-20 lg:py-28 px-4 md:px-10">
       <div className="container mx-auto text-center">
         {/* Heading */}
         <h2 className="text-3xl md:text-4xl font-bold mb-3">
