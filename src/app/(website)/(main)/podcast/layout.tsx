@@ -52,7 +52,7 @@ export default function PodcastsLayout({
       </div>
 
       {/* 🔹 Page Content */}
-      <div className="container mx-auto px-4 pt-8">{children}</div>
+      <div className="container mx-auto px-4">{children}</div>
     </div>
   )
 }
