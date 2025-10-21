@@ -128,7 +128,7 @@ export function ContactForm() {
             Terms & Conditions
           </Link>{' '}
           and{' '}
-          <Link href="/privacy" className="text-[#5A8DEE] underline">
+          <Link href="/privacy-policy" className="text-[#5A8DEE] underline">
             Privacy Policy
           </Link>
           .

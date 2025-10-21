@@ -13,7 +13,7 @@ export default function Navbar() {
 
   // Dummy logged-in state
   const isLoggedIn = false
-  const userImage = '/user-avatar.jpg' // replace later with dynamic image
+  const userImage = '/user-avatar.png' // replace later with dynamic image
 
   const links = [
     { name: 'Home', href: '/' },
@@ -71,18 +71,20 @@ export default function Navbar() {
             </Link>
 
             {isLoggedIn ? (
-              <div className="relative w-9 h-9">
-                <Image
-                  src={userImage}
-                  alt="User Avatar"
-                  fill
-                  sizes="36px"
-                  className="rounded-full object-cover border-2 border-[#5A8DEE]"
-                />
-              </div>
+              <Link className="cursor-pointer" href={'/account'}>
+                <div className="relative w-9 h-9">
+                  <Image
+                    src={userImage}
+                    alt="User Avatar"
+                    fill
+                    sizes="40px"
+                    className="rounded-full object-cover border-2 border-[#5A8DEE]"
+                  />
+                </div>
+              </Link>
             ) : (
               <Button asChild variant="default" className="px-10">
-                <Link href="/login">Login</Link>
+                <Link href="/signin">Login</Link>
               </Button>
             )}
           </div>
@@ -114,17 +116,19 @@ export default function Navbar() {
             </Link>
 
             {isLoggedIn ? (
-              <div className="flex items-center space-x-2 mt-2">
-                <div className="relative w-9 h-9">
-                  <Image
-                    src={userImage}
-                    alt="User Avatar"
-                    fill
-                    className="rounded-full object-cover border-2 border-[#5A8DEE]"
-                  />
+              <Link className="cursor-pointer" href={'/account'}>
+                <div className="flex items-center space-x-2 mt-2 ">
+                  <div className="relative w-10 h-10">
+                    <Image
+                      src={userImage}
+                      alt="User Avatar"
+                      fill
+                      className="rounded-full object-cover border-2 border-[#5A8DEE]"
+                    />
+                  </div>
+                  <span className="text-[#5A8DEE] font-medium">Profile</span>
                 </div>
-                <span className="text-[#5A8DEE] font-medium">Profile</span>
-              </div>
+              </Link>
             ) : (
               <Button asChild variant="secondary" className="w-full">
                 <Link href="/signin">Login</Link>

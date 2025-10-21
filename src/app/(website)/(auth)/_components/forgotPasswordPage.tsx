@@ -52,7 +52,7 @@ export default function ForgotPasswordPage() {
                   <FormControl>
                     <Input placeholder="Email Address" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-400 font-medium" />
                 </FormItem>
               )}
             />

@@ -60,7 +60,7 @@ export default function SigninPage() {
                   <FormControl>
                     <Input placeholder="Email Address" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-400 font-medium" />
                 </FormItem>
               )}
             />
@@ -89,7 +89,7 @@ export default function SigninPage() {
                       {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                     </button>
                   </div>
-                  <FormMessage />
+                  <FormMessage className="text-red-400 font-medium" />
                 </FormItem>
               )}
             />
