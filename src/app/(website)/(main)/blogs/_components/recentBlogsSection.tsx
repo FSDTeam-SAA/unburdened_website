@@ -57,7 +57,7 @@ export default function RecentBlogsSection() {
       </h2>
 
       {/* Layout: Large Left Card + Two Right Small Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
         {/* Left Large Blog Card */}
         <div className="group lg:col-span-2 bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition cursor-pointer flex flex-col">
           <div className="relative h-52 overflow-hidden">

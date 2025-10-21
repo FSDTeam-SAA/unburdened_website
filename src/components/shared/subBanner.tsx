@@ -23,7 +23,7 @@ export function HeroBanner({
   description,
 }: HeroBannerProps) {
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-1">
       <div
         className="relative rounded-[10px] overflow-hidden flex items-center justify-center"
         style={{
@@ -37,7 +37,7 @@ export function HeroBanner({
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" />
 
         {/* Content */}
-        <div className="relative z-10 text-center px-8 max-w-3xl">
+        <div className="relative z-10 text-center px-8 max-w-5xl">
           {/* Quote variant */}
           {quote && (
             <>
