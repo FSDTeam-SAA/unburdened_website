@@ -77,7 +77,7 @@ export default function SignupPage() {
                     <FormControl>
                       <Input placeholder="First Name" {...field} />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-400 font-medium" />
                   </FormItem>
                 )}
               />
@@ -90,7 +90,7 @@ export default function SignupPage() {
                     <FormControl>
                       <Input placeholder="Last Name" {...field} />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-400 font-medium" />
                   </FormItem>
                 )}
               />
@@ -107,7 +107,7 @@ export default function SignupPage() {
                   <FormControl>
                     <Input placeholder="Email Address" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-400 font-medium" />
                 </FormItem>
               )}
             />
@@ -140,7 +140,7 @@ export default function SignupPage() {
                       </button>
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-400 font-medium" />
                 </FormItem>
               )}
             />
@@ -173,7 +173,7 @@ export default function SignupPage() {
                       </button>
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-400 font-medium" />
                 </FormItem>
               )}
             />

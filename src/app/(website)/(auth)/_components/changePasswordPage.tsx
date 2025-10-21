@@ -77,7 +77,7 @@ export default function ChangePasswordPage() {
                       </button>
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-400 font-medium" />
                 </FormItem>
               )}
             />
@@ -111,7 +111,7 @@ export default function ChangePasswordPage() {
                       </button>
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-400 font-medium" />
                 </FormItem>
               )}
             />

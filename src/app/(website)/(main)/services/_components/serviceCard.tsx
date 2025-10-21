@@ -18,14 +18,14 @@ export default function ServiceCard({
   image,
 }: ServiceCardProps) {
   return (
-    <div className="bg-[#EFF4FD] rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col md:flex-row gap-5">
+    <div className="group bg-[#EFF4FD] rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col md:flex-row gap-5 cursor-pointer">
       {/* IMAGE SECTION - LEFT SIDE */}
-      <div className="relative w-full md:w-1/2 h-60 md:h-auto">
+      <div className="relative w-full md:w-1/2 h-60 md:h-auto overflow-hidden">
         <Image
           src={image}
           alt={title}
           fill
-          className="object-cover"
+          className="object-cover transform transition-transform duration-500 group-hover:scale-110"
           sizes="(max-width: 768px) 100vw, 50vw"
         />
       </div>
