@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export default function HeroSection() {
   return (
@@ -22,25 +23,27 @@ export default function HeroSection() {
           </p>
 
           <div>
-            <Button className="bg-[#5A8DEE] hover:bg-[#4b7bd0] text-white  py-2 rounded px-16 md:px-24 transition-all duration-200">
-              Ask David
-            </Button>
+            <Link href="/contact">
+              <Button className="bg-[#5A8DEE] hover:bg-[#4b7bd0] text-white  py-2 rounded px-16 md:px-24 transition-all duration-200">
+                Ask David
+              </Button>
+            </Link>
           </div>
         </div>
 
         {/* Right Side Image */}
         <div className="flex justify-center md:justify-end">
           <div
-            className="relative w-[350px] h-[250px] md:w-[620px] md:h-[420px] overflow-hidden"
+            className="relative w-[350px] h-[250px] md:w-[620px] md:h-[480px] overflow-hidden"
             style={{
-              borderRadius: '50px 160px 50px 50px', // top-right এখন বেশি curve
+              borderRadius: '50px 140px 50px 50px', // top-right এখন বেশি curve
             }}
           >
             <Image
-              src="/images/home-right.jpg"
+              src="/david-profile.jpg"
               alt="Coach sitting and smiling"
               fill
-              className="object-cover"
+              className="object-cover "
               priority
             />
           </div>

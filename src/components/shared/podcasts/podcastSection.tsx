@@ -23,7 +23,7 @@ export function PodcastSection({
   // --- Demo Data (Replace later with API/React Query) ---
   const demoData = [
     {
-      thumbnail: '/images/podcast.jpg',
+      thumbnail: '/main-podcast.png',
       playIcon: '/images/Play-button.png',
       title: 'Conversations for an Unburdened Mind',
       description:
@@ -34,7 +34,7 @@ export function PodcastSection({
       mediaLink: 'https://spotify.com',
     },
     {
-      thumbnail: '/images/podcast.jpg',
+      thumbnail: '/main-podcast.png',
       playIcon: '/images/Play-button.png',
       title: 'Pathways to Peace',
       description:
@@ -45,7 +45,7 @@ export function PodcastSection({
       mediaLink: 'https://youtube.com',
     },
     {
-      thumbnail: '/images/podcast.jpg',
+      thumbnail: '/main-podcast.png',
       playIcon: '/images/Play-button.png',
       title: 'Mindful Moments',
       description:
@@ -55,7 +55,7 @@ export function PodcastSection({
       duration: '00:58:00',
     },
     {
-      thumbnail: '/images/podcast.jpg',
+      thumbnail: '/main-podcast.png',
       playIcon: '/images/Play-button.png',
       title: 'The Inner Journey',
       description:
@@ -65,7 +65,7 @@ export function PodcastSection({
       duration: '01:10:00',
     },
     {
-      thumbnail: '/images/podcast.jpg',
+      thumbnail: '/main-podcast.png',
       playIcon: '/images/Play-button.png',
       title: 'The Inner Journey',
       description:
@@ -75,7 +75,7 @@ export function PodcastSection({
       duration: '01:10:00',
     },
     {
-      thumbnail: '/images/podcast.jpg',
+      thumbnail: '/main-podcast.png',
       playIcon: '/images/Play-button.png',
       title: 'The Inner Journey',
       description:
@@ -95,7 +95,7 @@ export function PodcastSection({
   const currentItems = demoData.slice(startIndex, startIndex + itemsPerPage)
 
   return (
-    <section className="py-12 bg-white">
+    <section className="py-12 bg-white px-2">
       <div className="container mx-auto">
         {/* Header */}
         <div className="mb-8">

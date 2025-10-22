@@ -8,7 +8,7 @@ const Page = () => {
     <div>
       {/* SECTION 1 */}
       <ContentSection
-        image="/images/home-right.jpg"
+        image="/david-profile.jpg"
         imageHeight="h-72 md:h-96 lg:h-[750px]"
         isRight={false}
         title="Meet"
@@ -25,7 +25,7 @@ const Page = () => {
 
       {/* SECTION 2 */}
       <ContentSection
-        image="/images/mission.jpg"
+        image="/mind-about.png"
         imageHeight="h-64 md:h-80 lg:h-[450px]"
         isRight={true}
         title="Our"
