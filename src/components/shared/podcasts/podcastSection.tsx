@@ -19,7 +19,7 @@ interface PodcastSectionProps {
   description?: string
   showButton?: boolean
   limit?: number
-  mediaType?: 'all' | 'youtube' | 'spotify'
+  mediaType?: 'all' | 'Youtube Videos' | 'Spotify Audios'
 }
 
 export function PodcastSection({
@@ -43,7 +43,7 @@ export function PodcastSection({
 
     // Add mediaName filter if not 'all'
     if (mediaType !== 'all') {
-      params.append('search', mediaType)
+      params.append('mediaName', mediaType)
     }
 
     return `${baseUrl}?${params.toString()}`

@@ -12,7 +12,7 @@ export default function PodcastsPage() {
         titleHighlight="Videos"
         highlightColor="#5A8DEE"
         description="Watch our latest video podcasts on YouTube"
-        mediaType="youtube"
+        mediaType="Youtube Videos"
       />
 
       {/* spotify videos */}
@@ -21,7 +21,7 @@ export default function PodcastsPage() {
         titleHighlight="Audios"
         highlightColor="#5A8DEE"
         description="Listen to our audio podcasts on Spotify"
-        mediaType="spotify"
+        mediaType="Spotify Audios"
       />
     </div>
   )
