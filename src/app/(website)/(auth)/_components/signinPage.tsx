@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useState } from 'react'
@@ -17,6 +18,9 @@ import { Button } from '@/components/ui/button'
 import AuthLayout from './authLayout'
 import Link from 'next/link'
 import { Eye, EyeOff } from 'lucide-react'
+import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner' // optional toast library, you can remove if not using
+import { useRouter } from 'next/navigation'
 
 const signinSchema = z.object({
   email: z.string().email('Invalid email'),
@@ -25,13 +29,43 @@ const signinSchema = z.object({
 
 export default function SigninPage() {
   const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter()
+
   const form = useForm<z.infer<typeof signinSchema>>({
     resolver: zodResolver(signinSchema),
     defaultValues: { email: '', password: '' },
   })
 
+  // --- React Query Mutation ---
+  const { mutate: login, isPending } = useMutation({
+    mutationFn: async (data: { email: string; password: string }) => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/login`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        }
+      )
+
+      const result = await res.json()
+      if (!res.ok) throw new Error(result.message || 'Login failed')
+      return result
+    },
+    onSuccess: (data) => {
+      toast.success('Login successful')
+      console.log('✅ Logged in user:', data)
+
+      // Optional: redirect to dashboard
+      router.push('/')
+    },
+    onError: (error: any) => {
+      toast.error(error.message || 'Login failed')
+    },
+  })
+
   const onSubmit = (values: z.infer<typeof signinSchema>) => {
-    console.log(values)
+    login(values)
   }
 
   return (
@@ -77,7 +111,7 @@ export default function SigninPage() {
                       <Input
                         type={showPassword ? 'text' : 'password'}
                         placeholder="Password"
-                        className="pr-10" // give space for the eye icon
+                        className="pr-10"
                         {...field}
                       />
                     </FormControl>
@@ -117,8 +151,9 @@ export default function SigninPage() {
             <Button
               type="submit"
               className="w-full bg-[#71A899] hover:bg-[#71A899]/90 cursor-pointer text-white"
+              disabled={isPending}
             >
-              Log In
+              {isPending ? 'Logging in...' : 'Log In'}
             </Button>
 
             {/* Sign Up link */}

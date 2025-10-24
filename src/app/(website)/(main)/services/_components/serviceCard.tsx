@@ -19,7 +19,7 @@ export default function ServiceCard({
 }: ServiceCardProps) {
   return (
     <div className="group bg-[#EFF4FD] rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col md:flex-row gap-5 cursor-pointer">
-      {/* IMAGE SECTION - LEFT SIDE */}
+      {/* IMAGE SECTION */}
       <div className="relative w-full md:w-1/2 h-60 md:h-auto overflow-hidden">
         <Image
           src={image}
@@ -30,8 +30,8 @@ export default function ServiceCard({
         />
       </div>
 
-      {/* CONTENT SECTION - RIGHT SIDE */}
-      <div className="flex-1 py-6 px-2 flex flex-col justify-center bg-[#EFF4FD] space-y-3">
+      {/* CONTENT SECTION */}
+      <div className="flex-1 py-6 px-4 flex flex-col justify-center bg-[#EFF4FD] space-y-3">
         <h3 className="text-base md:text-xl font-bold text-gray-800">
           {title}
         </h3>

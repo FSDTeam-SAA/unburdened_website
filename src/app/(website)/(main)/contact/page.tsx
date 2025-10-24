@@ -20,7 +20,7 @@ within 48 hours.`}
           {/* Left: Image */}
           <div className="hidden md:block relative h-[400px] md:h-auto">
             <Image
-              src={'/images/contact.jpg'}
+              src={'/contact-main.png'}
               alt={'contact-user'}
               fill
               className="object-cover rounded-l-2xl"

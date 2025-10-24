@@ -14,13 +14,13 @@ export default function Page() {
       <ServicesSection />
       <SubBanner />
       <PodcastSection
-        titleFirst="Latest"
-        titleHighlight="Episodes"
+        titleFirst="My"
+        titleHighlight="Podcasts"
         highlightColor="#5A8DEE"
         description="Explore our most recent discussions on personal growth, mindfulness, and peace."
         showButton={true}
       />
-      <BlogSection />
+      <BlogSection showButton={true} />
     </div>
   )
 }

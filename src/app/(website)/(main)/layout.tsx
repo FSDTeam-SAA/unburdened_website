@@ -8,7 +8,7 @@ export default async function WebsiteLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div className="">
+    <div className="" suppressHydrationWarning>
       <Navbar />
 
       <div className="min-h-[calc(100vh-100px)]">{children}</div>

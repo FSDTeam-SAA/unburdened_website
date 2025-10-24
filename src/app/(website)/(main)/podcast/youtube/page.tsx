@@ -9,7 +9,8 @@ export default function YouTubePage() {
         titleFirst="YouTube"
         titleHighlight="Videos"
         highlightColor="#5A8DEE"
-        description=""
+        description="Watch our latest video podcasts on YouTube"
+        mediaType="Youtube Videos"
       />
     </div>
   )

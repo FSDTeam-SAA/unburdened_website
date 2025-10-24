@@ -1,152 +1,167 @@
+// app/blogs/_components/recentBlogsSection.tsx
 'use client'
 
 import Image from 'next/image'
 import { Calendar, Clock, MoveRight } from 'lucide-react'
 import Link from 'next/link'
 
-interface BlogItem {
-  id: number
-  title: string
-  description: string
-  publishedDate: string
-  readTime: string
-  thumbnail: string
-  link?: string
+import { format } from 'date-fns'
+import { Blog } from '../../../../../../types/blog'
+
+interface RecentBlogsSectionProps {
+  blogs: Blog[]
 }
 
-const demoBlogs: BlogItem[] = [
-  {
-    id: 1,
-    title: 'Finding Stillness in a Busy World',
-    description:
-      'Practical strategies for cultivating deep moments of calm, focus, and mental clarity amid the noise, speed, and constant demands of everyday life — gentle, actionable ways to pause and reconnect.',
-    publishedDate: 'June 15, 2023',
-    readTime: '12 min read',
-    thumbnail: '/images/blog-demo.jpg',
-    link: '/blog/finding-stillness',
-  },
-  {
-    id: 2,
-    title: 'The Power of Intentional Reflection',
-    description:
-      'Discover gentle practices for self-reflection and mindfulness to better align with your goals, values, and emotional balance in daily life.',
-    publishedDate: 'June 15, 2023',
-    readTime: '10 min read',
-    thumbnail: '/images/blog-demo.jpg',
-    link: '/blog/intentional-reflection',
-  },
-  {
-    id: 3,
-    title: 'Letting Go of Perfectionism',
-    description:
-      'Learn how to release the constant need to perform, control, or please — and start embracing progress over perfection in every area of life.',
-    publishedDate: 'June 15, 2023',
-    readTime: '9 min read',
-    thumbnail: '/images/blog-demo.jpg',
-    link: '/blog/perfectionism',
-  },
-]
+export default function RecentBlogsSection({ blogs }: RecentBlogsSectionProps) {
+  const recentBlogs = blogs.slice(0, 3)
 
-export default function RecentBlogsSection() {
-  const [mainBlog, ...sideBlogs] = demoBlogs
+  if (recentBlogs.length === 0) {
+    return (
+      <section className="py-14 px-4 container mx-auto">
+        <h2 className="text-xl md:text-2xl font-bold mb-5">
+          Recent <span className="text-[#5A8DEE]">Blog Posts</span>
+        </h2>
+        <div className="text-center py-16">
+          <div className="flex flex-col items-center gap-4">
+            <div className="text-6xl">📝</div>
+            <p className="text-gray-500 text-lg">
+              No recent blog posts available.
+            </p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  const [mainBlog, ...sideBlogs] = recentBlogs
 
   return (
     <section className="py-14 px-4 container mx-auto">
-      <h2 className="text-xl md:text-2xl font-bold mb-5">
-        Recent <span className="text-[#5A8DEE]">Blog Posts</span>
-      </h2>
+      <div className="mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold mb-2">
+          Recent <span className="text-[#5A8DEE]">Blog Posts</span>
+        </h2>
+        <p className="text-gray-600 text-sm md:text-base">
+          Our latest articles on mindfulness and mental clarity
+        </p>
+      </div>
 
-      {/* Layout: Large Left Card + Two Right Small Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-7">
         {/* Left Large Blog Card */}
-        <div className="group lg:col-span-2 bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition cursor-pointer flex flex-col">
-          <div className="relative h-52 overflow-hidden">
-            <Image
-              src={mainBlog.thumbnail}
-              alt={mainBlog.title}
-              fill
-              className="object-cover transform transition-transform duration-500 group-hover:scale-110"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 50vw"
-            />
-          </div>
-
-          <div className="p-6 flex flex-col justify-between  border-t">
-            <div>
-              <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
-                <span className="flex items-center gap-1">
-                  <Calendar size={16} /> {mainBlog.publishedDate}
-                </span>
-                <span className="flex items-center gap-1">
-                  <Clock size={16} /> {mainBlog.readTime}
-                </span>
-              </div>
-
-              <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-2">
-                {mainBlog.title}
-              </h3>
-              <p className="text-gray-600 text-base leading-relaxed mb-3">
-                {mainBlog.description}
-              </p>
+        {mainBlog && (
+          <Link
+            href={`/blog/${mainBlog._id}`}
+            className="group lg:col-span-2 bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full"
+          >
+            <div className="relative h-64 md:h-80 lg:h-96 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+              {mainBlog.uploadPhoto ? (
+                <Image
+                  src={mainBlog.uploadPhoto}
+                  alt={mainBlog.title}
+                  fill
+                  className="object-cover transform transition-transform duration-700 group-hover:scale-110"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 50vw"
+                  priority
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-50 to-purple-100">
+                  <span className="text-7xl opacity-50">📝</span>
+                </div>
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
 
-            <Link
-              href={mainBlog.link ?? '#'}
-              className="text-sky-600 font-medium hover:underline text-sm flex items-center gap-1.5"
-            >
-              Read More{' '}
-              <span>
-                <MoveRight size={18} />
-              </span>
-            </Link>
-          </div>
-        </div>
-
-        {/* Right Side Smaller Cards */}
-        <div className="flex flex-col gap-5">
-          {sideBlogs.map((blog) => (
-            <div
-              key={blog.id}
-              className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition cursor-pointer flex flex-col sm:flex-row h-[calc(24rem/2)]" // half of left height (~12rem each)
-            >
-              <div className="relative w-full sm:w-1/3 h-40 sm:h-auto overflow-hidden">
-                <Image
-                  src={blog.thumbnail}
-                  alt={blog.title}
-                  fill
-                  className="object-cover transform transition-transform duration-500 group-hover:scale-110"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 20vw"
-                />
+            <div className="p-6 lg:p-8 flex flex-col flex-1">
+              <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                <span className="flex items-center gap-1.5 bg-gray-100 px-3 py-1.5 rounded-full">
+                  <Calendar size={14} />
+                  {format(new Date(mainBlog.createdAt), 'MMM dd, yyyy')}
+                </span>
+                {mainBlog.readTime && (
+                  <span className="flex items-center gap-1.5 bg-gray-100 px-3 py-1.5 rounded-full">
+                    <Clock size={14} />
+                    {mainBlog.readTime}
+                  </span>
+                )}
               </div>
 
-              <div className="p-4 flex flex-col gap-5 sm:w-2/3">
-                <div>
-                  <div className="flex items-center justify-between text-xs text-gray-500 mb-2 ">
-                    <span className="flex items-center gap-1">
-                      <Calendar size={14} /> {blog.publishedDate}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Clock size={14} /> {blog.readTime}
-                    </span>
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-[#5A8DEE] transition-colors duration-300">
+                {mainBlog.title}
+              </h3>
+
+              <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-6 line-clamp-3 flex-1">
+                {mainBlog.description || 'No description available'}
+              </p>
+
+              <div className="flex items-center text-[#5A8DEE] font-semibold text-base group-hover:gap-3 gap-2 transition-all duration-300">
+                <span>Read Full Article</span>
+                <MoveRight
+                  size={20}
+                  className="transform group-hover:translate-x-2 transition-transform duration-300"
+                />
+              </div>
+            </div>
+          </Link>
+        )}
+
+        {/* Right Side Smaller Cards */}
+        <div className="flex flex-col gap-5 lg:gap-6">
+          {sideBlogs.map((blog) => (
+            <Link
+              key={blog._id}
+              href={`/blog/${blog._id}`}
+              className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col sm:flex-row flex-1"
+            >
+              <div className="relative w-full sm:w-2/5 h-48 sm:h-auto overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+                {blog.uploadPhoto ? (
+                  <Image
+                    src={blog.uploadPhoto}
+                    alt={blog.title}
+                    fill
+                    className="object-cover transform transition-transform duration-700 group-hover:scale-110"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-50 to-purple-100">
+                    <span className="text-4xl opacity-50">📝</span>
                   </div>
-                  <h4 className="text-gray-800 font-semibold text-base my-4">
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+
+              <div className="p-5 flex flex-col justify-between sm:w-3/5">
+                <div>
+                  <div className="flex items-center gap-3 text-xs text-gray-500 mb-3">
+                    <span className="flex items-center gap-1 bg-gray-100 px-2 py-1 rounded-full">
+                      <Calendar size={12} />
+                      {format(new Date(blog.createdAt), 'MMM dd')}
+                    </span>
+                    {blog.readTime && (
+                      <span className="flex items-center gap-1 bg-gray-100 px-2 py-1 rounded-full">
+                        <Clock size={12} />
+                        {blog.readTime}
+                      </span>
+                    )}
+                  </div>
+
+                  <h4 className="text-gray-800 font-bold text-base lg:text-lg mb-2 line-clamp-2 group-hover:text-[#5A8DEE] transition-colors duration-300">
                     {blog.title}
                   </h4>
-                  <p className="text-gray-600 text-base line-clamp-2 mb-2">
-                    {blog.description}
+
+                  <p className="text-gray-600 text-sm line-clamp-2 mb-3">
+                    {blog.description || 'No description available'}
                   </p>
                 </div>
 
-                <Link
-                  href={blog.link ?? '#'}
-                  className="text-sky-600 font-medium hover:underline text-sm flex items-center gap-1.5"
-                >
-                  Read More{' '}
-                  <span>
-                    <MoveRight size={18} />
-                  </span>
-                </Link>
+                <div className="flex items-center text-[#5A8DEE] font-semibold text-sm group-hover:gap-2 gap-1 transition-all duration-300">
+                  <span>Read More</span>
+                  <MoveRight
+                    size={16}
+                    className="transform group-hover:translate-x-1 transition-transform duration-300"
+                  />
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

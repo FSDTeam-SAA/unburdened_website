@@ -19,7 +19,7 @@ export default function PodcastsLayout({
   const pathname = usePathname()
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto" suppressHydrationWarning>
       {/* 🔹 Banner Section */}
       <div className="pt-20 md:pt-24 lg:pt-32">
         <HeroBanner

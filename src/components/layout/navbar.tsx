@@ -12,6 +12,9 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   // Dummy logged-in state
+  // const cu = useSession()
+  // console.log('current user session:', cu)
+
   const isLoggedIn = false
   const userImage = '/user-avatar.png' // replace later with dynamic image
 
@@ -25,7 +28,7 @@ export default function Navbar() {
   ]
 
   return (
-    <nav className="bg-[#5A8DEE14] backdrop-blur-3xl fixed w-full z-50 shadow-sm">
+    <nav className="bg-[#719cec14] backdrop-blur-3xl fixed w-full z-50 shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Left - Logo */}
@@ -93,7 +96,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Items */}
       {menuOpen && (
-        <div className="md:hidden bg-[#5A8DEE14] backdrop-blur-md border-t border-[#5A8DEE20] px-4 pb-4 space-y-2 animate-fadeIn">
+        <div className="md:hidden bg-[#e6e6eb14] backdrop-blur-md border-t border-[#5A8DEE20] px-4 pb-4 space-y-2 animate-fadeIn">
           {links.map((link) => (
             <Link
               key={link.name}

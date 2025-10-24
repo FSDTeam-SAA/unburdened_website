@@ -1,46 +1,60 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useServicesStore } from '@/store/useServiceStore'
+import { fetchServices } from '@/lib/apiHooks/servicesApi'
+import { ServiceSkeleton } from './_components/service-skeleton'
+import { ErrorState } from './_components/error-state'
 import { ServiceCard } from './service-card'
-import { PaginationControls } from '@/components/ui/pagination-controls'
-
-const demoData = [
-  {
-    title: 'Coaching',
-    description:
-      'One-on-one sessions to help you overcome obstacles and find clarity.',
-    image: '/images/services/services-1.jpg',
-  },
-  {
-    title: 'Workshops',
-    description:
-      'Group sessions focused on specific themes and personal growth.',
-    image: '/images/services/services-2.jpg',
-  },
-  {
-    title: 'Writing',
-    description: 'Insights and reflections to inspire your personal journey.',
-    image: '/images/services/services-3.jpg',
-  },
-  {
-    title: 'Podcast',
-    description: 'Conversations that explore mindfulness and growth.',
-    image: '/images/services/services-4.jpg',
-  },
-  {
-    title: 'Retreats',
-    description: 'Immersive experiences designed for rejuvenation and clarity.',
-    image: '/images/services/services-1.jpg',
-  },
-]
+import { PaginationControls } from '../ui/pagination-controls'
 
 export function ServicesSection() {
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 4
-  const totalPages = Math.ceil(demoData.length / itemsPerPage)
+  const { setData, setPagination, data: storeData } = useServicesStore()
 
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const currentItems = demoData.slice(startIndex, startIndex + itemsPerPage)
+  const { data, isLoading, isError, refetch } = useQuery({
+    queryKey: ['services', currentPage],
+    queryFn: () => fetchServices(currentPage),
+    placeholderData: (previousData) => previousData,
+  })
+
+  useEffect(() => {
+    if (data?.services) {
+      setData(data.services)
+      setPagination(data.pagination)
+    }
+  }, [data, setData, setPagination])
+
+  if (isLoading) {
+    return (
+      <section className="py-16 md:py-20 lg:py-24 px-3 bg-white text-center">
+        <div className="container mx-auto">
+          <h2 className="text-2xl md:text-3xl lg:text-[40px] font-semibold mb-3">
+            My <span className="text-[#5A8DEE]">Services</span>
+          </h2>
+          <p className="text-[#616161] text-sm mb-10 max-w-2xl mx-auto">
+            Loading available services...
+          </p>
+          <ServiceSkeleton />
+        </div>
+      </section>
+    )
+  }
+
+  if (isError) {
+    return (
+      <section className="py-16 md:py-20 lg:py-24 px-3 bg-white text-center">
+        <ErrorState
+          message="Failed to load services"
+          onRetry={() => refetch()}
+        />
+      </section>
+    )
+  }
+
+  const services = storeData || []
+  const pagination = data?.pagination
 
   return (
     <section className="py-16 md:py-20 lg:py-24 px-3 bg-white text-center">
@@ -54,17 +68,25 @@ export function ServicesSection() {
         </p>
 
         <div className="grid grid-cols-1 mt-12 md:mt-16 lg:mt-20 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-center">
-          {currentItems.map((service, idx) => (
-            <ServiceCard key={idx} {...service} />
+          {services.map((service) => (
+            <ServiceCard
+              key={service._id}
+              title={service.serviceName}
+              description={service.description}
+              image={service.uploadPhoto || '/images/placeholder.jpg'}
+            />
           ))}
         </div>
-        <div className="mt-12 md:mt-16 lg:mt-20">
-          <PaginationControls
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
-        </div>
+
+        {pagination?.totalPages && pagination.totalPages > 1 && (
+          <div className="mt-12 md:mt-16 lg:mt-20">
+            <PaginationControls
+              currentPage={pagination.currentPage}
+              totalPages={pagination.totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </div>
+        )}
       </div>
     </section>
   )

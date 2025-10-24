@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { z } from 'zod'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -15,8 +17,10 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import AuthLayout from './authLayout'
 import Link from 'next/link'
-import { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
+import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const signupSchema = z
   .object({
@@ -32,6 +36,9 @@ const signupSchema = z
   })
 
 export default function SignupPage() {
+  const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter()
+
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -42,10 +49,46 @@ export default function SignupPage() {
       confirmPassword: '',
     },
   })
-  const [showPassword, setShowPassword] = useState(false)
+
+  // --- React Query Mutation for Signup ---
+  const { mutate: registerUser, isPending } = useMutation({
+    mutationFn: async (data: {
+      fullName: string
+      email: string
+      password: string
+    }) => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/register`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        }
+      )
+
+      const result = await res.json()
+      if (!res.ok) throw new Error(result.message || 'Registration failed')
+      return result
+    },
+    onSuccess: (data) => {
+      toast.success('Account created successfully 🎉')
+      console.log('✅ Registered user:', data)
+
+      // Optional redirect after successful signup
+      router.push('/signin')
+    },
+    onError: (error: any) => {
+      toast.error(error.message || 'Registration failed')
+    },
+  })
 
   const onSubmit = (values: z.infer<typeof signupSchema>) => {
-    console.log(values)
+    const payload = {
+      fullName: `${values.firstName} ${values.lastName}`,
+      email: values.email,
+      password: values.password,
+    }
+    registerUser(payload)
   }
 
   return (
@@ -55,12 +98,12 @@ export default function SignupPage() {
         <div className="space-y-2 text-start">
           <h1
             style={{ fontFamily: 'var(--font-playfair)' }}
-            className="text-2xl md:text-[25px ] lg:text-[32px] leading-[1.5] font-bold text-[#71A899]"
+            className="text-2xl md:text-[25px] lg:text-[32px] leading-[1.5] font-bold text-[#71A899]"
           >
             Create Your Account
           </h1>
           <p className="text-[#6C757D] leading-[1.5]">
-            Connect families with trusted care join today.
+            Connect families with trusted care — join today.
           </p>
         </div>
 
@@ -112,6 +155,7 @@ export default function SignupPage() {
               )}
             />
 
+            {/* Password */}
             <FormField
               control={form.control}
               name="password"
@@ -145,6 +189,7 @@ export default function SignupPage() {
               )}
             />
 
+            {/* Confirm Password */}
             <FormField
               control={form.control}
               name="confirmPassword"
@@ -157,7 +202,7 @@ export default function SignupPage() {
                     <div className="relative">
                       <Input
                         type={showPassword ? 'text' : 'password'}
-                        placeholder="Create Password"
+                        placeholder="Confirm Password"
                         {...field}
                       />
                       <button
@@ -178,33 +223,16 @@ export default function SignupPage() {
               )}
             />
 
-            {/* <div className="flex items-center space-x-2 text-sm">
-              <input
-                type="checkbox"
-                className="w-4 h-4 accent-[#71A899]"
-                checked
-                readOnly
-              />
-              <p className="text-[13px] text-[#6C757D]">
-                I agree to ALH Hub’s{' '}
-                <Link href="#" className="text-[#71A899] underline">
-                  Terms & Conditions
-                </Link>{' '}
-                and{' '}
-                <Link href="#" className="text-[#71A899] underline">
-                  Privacy Policy
-                </Link>
-                .
-              </p>
-            </div> */}
-
+            {/* Submit Button */}
             <Button
               type="submit"
               className="w-full bg-[#71A899] hover:bg-[#71A899]/90 text-white"
+              disabled={isPending}
             >
-              Sign Up
+              {isPending ? 'Creating account...' : 'Sign Up'}
             </Button>
 
+            {/* Sign In link */}
             <p className="text-center text-base text-gray-600 mt-5">
               Already have an account?{' '}
               <Link

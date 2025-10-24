@@ -1,93 +1,42 @@
 'use client'
 
-import { useState } from 'react'
-import { PaginationControls } from '@/components/ui/pagination-controls'
 import BlogCard from '@/components/shared/blogs/blogCard'
+import { PaginationControls } from '@/components/ui/pagination-controls'
+import { Blog } from '../../../../../../types/blog'
 
-export function AllBlogSection() {
-  // --- Demo Blog Data (Replace later with API/React Query) ---
-  const demoData = [
-    {
-      thumbnail: '/images/blog-demo.jpg',
-      category: 'Mindfulness',
-      title: 'Finding Stillness in a Busy World',
-      description:
-        'Practical strategies for cultivating deep moments of calm, focus, and mental clarity amid the noise, speed, and constant demands of everyday life — gentle, actionable ways to pause, breathe, and reconnect with yourself even in the midst of daily chaos.',
-      publishedDate: 'June 15, 2025',
-      blogLink: '/blog/finding-stillness',
-    },
-    {
-      thumbnail: '/images/blog-demo.jpg',
-      category: 'Mindfulness',
-      title: 'The Power of Intentional Reflection',
-      description:
-        'Practical strategies for cultivating deep moments of calm, focus, and mental clarity amid the noise, speed, and constant demands of everyday life — gentle, actionable ways to pause, breathe, and reconnect with yourself even in the midst of daily chaos.',
-      publishedDate: 'June 22, 2025',
-      blogLink: '/blog/intentional-reflection',
-    },
-    {
-      thumbnail: '/images/blog-demo.jpg',
-      category: 'Mindfulness',
-      title: 'Letting Go of Perfectionism',
-      description:
-        'Practical strategies for cultivating deep moments of calm, focus, and mental clarity amid the noise, speed, and constant demands of everyday life — gentle, actionable ways to pause, breathe, and reconnect with yourself even in the midst of daily chaos.',
-      publishedDate: 'June 29, 2025',
-      blogLink: '/blog/perfectionism',
-    },
-    {
-      thumbnail: '/images/blog-demo.jpg',
-      category: 'Connection',
-      title: 'Creating Meaningful Relationships',
-      description:
-        'Practical strategies for cultivating deep moments of calm, focus, and mental clarity amid the noise, speed, and constant demands of everyday life — gentle, actionable ways to pause, breathe, and reconnect with yourself even in the midst of daily chaos.',
-      publishedDate: 'July 6, 2025',
-      blogLink: '/blog/meaningful-connections',
-    },
-    {
-      thumbnail: '/images/blog-demo.jpg',
-      category: 'Boundaries',
-      title: 'The Art of Saying No',
-      description:
-        'Practical strategies for cultivating deep moments of calm, focus, and mental clarity amid the noise, speed, and constant demands of everyday life — gentle, actionable ways to pause, breathe, and reconnect with yourself even in the midst of daily chaos.',
-      publishedDate: 'July 12, 2025',
-      blogLink: '/blog/saying-no',
-    },
-    {
-      thumbnail: '/images/blog-demo.jpg',
-      category: 'Mindfulness',
-      title: 'Embracing Uncertainty',
-      description:
-        'Practical strategies for cultivating deep moments of calm, focus, and mental clarity amid the noise, speed, and constant demands of everyday life — gentle, actionable ways to pause, breathe, and reconnect with yourself even in the midst of daily chaos.',
-      publishedDate: 'July 19, 2025',
-      blogLink: '/blog/embracing-uncertainty',
-    },
-    {
-      thumbnail: '/images/blog-demo.jpg',
-      category: 'Mindfulness',
-      title: 'Embracing Uncertainty',
-      description:
-        'Practical strategies for cultivating deep moments of calm, focus, and mental clarity amid the noise, speed, and constant demands of everyday life — gentle, actionable ways to pause, breathe, and reconnect with yourself even in the midst of daily chaos.',
-      publishedDate: 'July 19, 2025',
-      blogLink: '/blog/embracing-uncertainty',
-    },
-    {
-      thumbnail: '/images/blog-demo.jpg',
-      category: 'Mindfulness',
-      title: 'Embracing Uncertainty',
-      description:
-        'Practical strategies for cultivating deep moments of calm, focus, and mental clarity amid the noise, speed, and constant demands of everyday life — gentle, actionable ways to pause, breathe, and reconnect with yourself even in the midst of daily chaos.',
-      publishedDate: 'July 19, 2025',
-      blogLink: '/blog/embracing-uncertainty',
-    },
-  ]
+interface AllBlogSectionProps {
+  blogs: Blog[]
+  pagination: {
+    currentPage?: number
+    totalPages?: number
+    totalData?: number
+    hasNextPage?: boolean
+    hasPrevPage?: boolean
+  }
+  currentPage: number
+  onPageChange: (page: number) => void
+  isFetching?: boolean
+}
 
-  // --- Pagination Logic ---
-  const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 6
-  const totalPages = Math.ceil(demoData.length / itemsPerPage)
-
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const currentItems = demoData.slice(startIndex, startIndex + itemsPerPage)
+export default function AllBlogSection({
+  blogs,
+  pagination,
+  currentPage,
+  onPageChange,
+  isFetching,
+}: AllBlogSectionProps) {
+  if (!blogs.length) {
+    return (
+      <section className="py-12 md:py-16 lg:py-20 px-4 md:px-10 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold mb-3">
+          All <span className="text-[#5A8DEE]">Blogs</span>
+        </h2>
+        <p className="text-[#68706A] text-sm md:text-base">
+          No blog posts available right now.
+        </p>
+      </section>
+    )
+  }
 
   return (
     <section className="py-12 md:py-16 lg:py-20 px-4 md:px-10">
@@ -97,26 +46,30 @@ export function AllBlogSection() {
           <h2 className="text-3xl md:text-4xl font-bold mb-3">
             All <span className="text-[#5A8DEE]">Blogs</span>
           </h2>
-          <p className="text-[#68706A] text-sm md:text-base  mx-auto">
+          <p className="text-[#68706A] text-sm md:text-base mx-auto">
             Articles and reflections from David Burden on mindfulness,
             resilience, and the art of living with a lighter mind.
           </p>
         </div>
 
         {/* Blog Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 mt-12 md:mt-16">
-          {currentItems.map((blog, index) => (
-            <BlogCard key={index} {...blog} />
+        <div
+          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 mt-12 md:mt-16 transition-opacity duration-300 ${
+            isFetching ? 'opacity-50' : 'opacity-100'
+          }`}
+        >
+          {blogs.map((blog) => (
+            <BlogCard key={blog._id} blog={blog} />
           ))}
         </div>
 
         {/* Pagination */}
-        {totalPages > 1 && (
+        {pagination.totalPages && pagination.totalPages > 1 && (
           <div className="flex justify-center mt-10">
             <PaginationControls
               currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
+              totalPages={pagination.totalPages}
+              onPageChange={onPageChange}
             />
           </div>
         )}
@@ -124,5 +77,3 @@ export function AllBlogSection() {
     </section>
   )
 }
-
-export default AllBlogSection

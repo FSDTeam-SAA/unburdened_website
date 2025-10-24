@@ -9,7 +9,8 @@ export default function SpotifyPage() {
         titleFirst="Spotify"
         titleHighlight="Audios"
         highlightColor="#5A8DEE"
-        description=""
+        description="Listen to our audio podcasts on Spotify"
+        mediaType="Spotify Audios"
       />
     </div>
   )

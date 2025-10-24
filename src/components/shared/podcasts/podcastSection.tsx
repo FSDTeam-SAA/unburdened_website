@@ -1,9 +1,16 @@
+// components/shared/podcasts/podcastSection.tsx
 'use client'
 
 import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import PodcastCard from './podcastCard'
+import { PodcastSkeleton } from './podcastSkeleton'
+import { PodcastError } from './podcastError'
 import { PaginationControls } from '@/components/ui/pagination-controls'
 import { Button } from '@/components/ui/button'
+
+import Link from 'next/link'
+import { PodcastsResponse } from '../../../../types/podcast'
 
 interface PodcastSectionProps {
   titleFirst?: string
@@ -11,6 +18,8 @@ interface PodcastSectionProps {
   highlightColor?: string
   description?: string
   showButton?: boolean
+  limit?: number
+  mediaType?: 'all' | 'Youtube Videos' | 'Spotify Audios'
 }
 
 export function PodcastSection({
@@ -19,124 +28,103 @@ export function PodcastSection({
   highlightColor = '#5A8DEE',
   description = 'Listen to meaningful conversations and reflections on mindfulness, resilience, and finding peace in the modern world.',
   showButton = false,
+  limit = 4,
+  mediaType = 'all',
 }: PodcastSectionProps) {
-  // --- Demo Data (Replace later with API/React Query) ---
-  const demoData = [
-    {
-      thumbnail: '/images/podcast.jpg',
-      playIcon: '/images/Play-button.png',
-      title: 'Conversations for an Unburdened Mind',
-      description:
-        'Dive into mindful conversations that explore self-awareness, healing, and inner clarity. Each episode features expert insights, honest stories, and practical wisdom designed to help you quiet the noise, release what no longer serves you, and find balance in a busy world.',
-      author: 'David',
-      publishedDate: '21 August, 2025',
-      duration: '01:30:00',
-      mediaLink: 'https://spotify.com',
-    },
-    {
-      thumbnail: '/images/podcast.jpg',
-      playIcon: '/images/Play-button.png',
-      title: 'Pathways to Peace',
-      description:
-        'Dive into mindful conversations that explore self-awareness, healing, and inner clarity. Each episode features expert insights, honest stories, and practical wisdom designed to help you quiet the noise, release what no longer serves you, and find balance in a busy world.',
-      author: 'David',
-      publishedDate: '14 August, 2025',
-      duration: '01:25:00',
-      mediaLink: 'https://youtube.com',
-    },
-    {
-      thumbnail: '/images/podcast.jpg',
-      playIcon: '/images/Play-button.png',
-      title: 'Mindful Moments',
-      description:
-        'Dive into mindful conversations that explore self-awareness, healing, and inner clarity. Each episode features expert insights, honest stories, and practical wisdom designed to help you quiet the noise, release what no longer serves you, and find balance in a busy world.',
-      author: 'David',
-      publishedDate: '7 August, 2025',
-      duration: '00:58:00',
-    },
-    {
-      thumbnail: '/images/podcast.jpg',
-      playIcon: '/images/Play-button.png',
-      title: 'The Inner Journey',
-      description:
-        'Dive into mindful conversations that explore self-awareness, healing, and inner clarity. Each episode features expert insights, honest stories, and practical wisdom designed to help you quiet the noise, release what no longer serves you, and find balance in a busy world.',
-      author: 'David',
-      publishedDate: '1 August, 2025',
-      duration: '01:10:00',
-    },
-    {
-      thumbnail: '/images/podcast.jpg',
-      playIcon: '/images/Play-button.png',
-      title: 'The Inner Journey',
-      description:
-        'Dive into mindful conversations that explore self-awareness, healing, and inner clarity. Each episode features expert insights, honest stories, and practical wisdom designed to help you quiet the noise, release what no longer serves you, and find balance in a busy world.',
-      author: 'David',
-      publishedDate: '1 August, 2025',
-      duration: '01:10:00',
-    },
-    {
-      thumbnail: '/images/podcast.jpg',
-      playIcon: '/images/Play-button.png',
-      title: 'The Inner Journey',
-      description:
-        'Dive into mindful conversations that explore self-awareness, healing, and inner clarity. Each episode features expert insights, honest stories, and practical wisdom designed to help you quiet the noise, release what no longer serves you, and find balance in a busy world.',
-      author: 'David',
-      publishedDate: '1 August, 2025',
-      duration: '01:10:00',
-    },
-  ]
-
-  // --- Pagination Logic ---
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 4
-  const totalPages = Math.ceil(demoData.length / itemsPerPage)
 
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const currentItems = demoData.slice(startIndex, startIndex + itemsPerPage)
+  // Build query URL based on mediaType
+  const buildQueryUrl = () => {
+    const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/podcasts`
+    const params = new URLSearchParams({
+      page: currentPage.toString(),
+      limit: limit.toString(),
+    })
+
+    // Add mediaName filter if not 'all'
+    if (mediaType !== 'all') {
+      params.append('mediaName', mediaType)
+    }
+
+    return `${baseUrl}?${params.toString()}`
+  }
+
+  // Fetch podcasts
+  const { data, isLoading, isError, refetch } = useQuery<PodcastsResponse>({
+    queryKey: ['podcasts', currentPage, limit, mediaType],
+    queryFn: async () => {
+      const res = await fetch(buildQueryUrl())
+      if (!res.ok) throw new Error('Failed to fetch podcasts')
+      return res.json()
+    },
+  })
+
+  // Loading state
+  if (isLoading) return <PodcastSkeleton />
+
+  // Error state
+  if (isError || !data?.status)
+    return <PodcastError onRetry={() => refetch()} />
+
+  const podcasts = data.data.podcasts || []
+  const pagination = data.data.pagination
 
   return (
-    <section className="py-12 bg-white">
+    <section className="py-12 bg-white px-2">
       <div className="container mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold mb-3 text-start">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 text-start">
             {titleFirst}{' '}
             <span style={{ color: highlightColor }}>{titleHighlight}</span>
           </h2>
           {description && (
-            <p className="text-[#68706A] text-start text-sm md:text-base">
+            <p className="text-[#68706A] text-start text-sm md:text-base max-w-3xl">
               {description}
             </p>
           )}
         </div>
 
         {/* Podcast Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 mt-12">
-          {currentItems.map((podcast, index) => (
-            <PodcastCard key={index} {...podcast} />
-          ))}
-        </div>
+        {podcasts.length > 0 ? (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 mt-12">
+              {podcasts.map((podcast) => (
+                <PodcastCard key={podcast._id} podcast={podcast} />
+              ))}
+            </div>
 
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="mt-12 flex justify-center">
-            <PaginationControls
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-            />
+            {/* Pagination */}
+            {pagination.totalPages > 1 && (
+              <div className="mt-12 flex justify-center">
+                <PaginationControls
+                  currentPage={pagination.currentPage}
+                  totalPages={pagination.totalPages}
+                  onPageChange={setCurrentPage}
+                />
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="text-center py-16">
+            <div className="flex flex-col items-center gap-4">
+              <div className="text-6xl">🎙️</div>
+              <p className="text-gray-500 text-lg">
+                No {mediaType !== 'all' ? mediaType : ''} podcasts available at
+                the moment.
+              </p>
+            </div>
           </div>
         )}
 
         {/* See All Button */}
-        {showButton && (
+        {showButton && podcasts.length > 0 && (
           <div className="flex justify-center mt-10">
-            <Button
-              onClick={() => console.log('See all clicked')}
-              className="px-8"
-            >
-              See All
-            </Button>
+            <Link href="/podcast">
+              <Button className="px-8 bg-gradient-to-r from-[#5A8DEE] to-[#4A7DD9] hover:from-[#4A7DD9] hover:to-[#3A6DC9]">
+                See All Podcasts
+              </Button>
+            </Link>
           </div>
         )}
       </div>
