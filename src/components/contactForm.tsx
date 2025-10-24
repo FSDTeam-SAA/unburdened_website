@@ -15,6 +15,8 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { toast } from 'sonner'
+import { useMutation } from '@tanstack/react-query'
 
 const formSchema = z.object({
   name: z.string().min(2, 'Please enter at least 2 characters.'),
@@ -24,8 +26,10 @@ const formSchema = z.object({
   message: z.string().min(5, 'Please write at least 5 characters.'),
 })
 
+type FormValues = z.infer<typeof formSchema>
+
 export function ContactForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
@@ -36,8 +40,41 @@ export function ContactForm() {
     },
   })
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values)
+  // 🔹 React Query Mutation
+  const mutation = useMutation({
+    mutationFn: async (values: FormValues) => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/contracts`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fullName: values.name,
+            email: values.email,
+            phoneNumber: values.phone,
+            occupation: values.occupation,
+            message: values.message,
+          }),
+        }
+      )
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(data?.message || 'Failed to send message.')
+      }
+      return data
+    },
+    onSuccess: () => {
+      toast.success('Your message has been sent successfully!')
+      form.reset()
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: any) => {
+      toast.error(error.message || 'Something went wrong. Please try again.')
+    },
+  })
+
+  const onSubmit = (values: FormValues) => {
+    mutation.mutate(values)
   }
 
   return (
@@ -138,8 +175,9 @@ export function ContactForm() {
         <Button
           type="submit"
           className="w-full bg-[#5A8DEE] hover:bg-[#4a7be0]"
+          disabled={mutation.isPending}
         >
-          Send Message
+          {mutation.isPending ? 'Sending...' : 'Send Message'}
         </Button>
       </form>
     </Form>
