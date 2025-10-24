@@ -12,6 +12,9 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   // Dummy logged-in state
+  // const cu = useSession()
+  // console.log('current user session:', cu)
+
   const isLoggedIn = false
   const userImage = '/user-avatar.png' // replace later with dynamic image
 

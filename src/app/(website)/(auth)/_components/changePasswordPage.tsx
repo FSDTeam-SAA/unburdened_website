@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { z } from 'zod'
@@ -16,8 +17,11 @@ import { Button } from '@/components/ui/button'
 import AuthLayout from './authLayout'
 import { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
+import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { useRouter, useSearchParams } from 'next/navigation'
 
-const changePasswordSchema = z
+const resetPasswordSchema = z
   .object({
     newPassword: z.string().min(6, 'At least 6 characters'),
     confirmPassword: z.string().min(6, 'Confirm your password'),
@@ -27,28 +31,61 @@ const changePasswordSchema = z
     path: ['confirmPassword'],
   })
 
-export default function ChangePasswordPage() {
-  const form = useForm<z.infer<typeof changePasswordSchema>>({
-    resolver: zodResolver(changePasswordSchema),
+export default function ResetPasswordPage() {
+  const form = useForm<z.infer<typeof resetPasswordSchema>>({
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: { newPassword: '', confirmPassword: '' },
   })
-  const [showPassword, setShowPassword] = useState(false)
 
-  const onSubmit = (values: z.infer<typeof changePasswordSchema>) => {
-    console.log(values)
+  const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const email = searchParams.get('email')
+
+  const { mutate: resetPassword, isPending } = useMutation({
+    mutationFn: async (data: { email: string; newPassword: string }) => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/reset-password`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email,
+            newPassword: data.newPassword,
+          }),
+        }
+      )
+      const result = await res.json()
+      if (!res.ok) throw new Error(result.message || 'Password reset failed')
+      return result
+    },
+    onSuccess: (data) => {
+      toast.success(data.message || 'Password reset successfully 🔒')
+      router.push('/signin')
+    },
+    onError: (error: any) => {
+      toast.error(error.message || 'Something went wrong')
+    },
+  })
+
+  const onSubmit = (values: z.infer<typeof resetPasswordSchema>) => {
+    if (!email) {
+      toast.error('Email missing from URL')
+      return
+    }
+    resetPassword({ email, newPassword: values.newPassword })
   }
 
   return (
     <AuthLayout>
       <div className="space-y-6 md:space-y-8">
         <div className="text-start space-y-3">
-          <h1 className="text-2xl font-bold text-[#71A899]">Change Password</h1>
+          <h1 className="text-2xl font-bold text-[#71A899]">Reset Password</h1>
           <p className="text-[#6C757D]">Enter your new password below.</p>
         </div>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* New Password Field */}
             <FormField
               control={form.control}
               name="newPassword"
@@ -82,7 +119,6 @@ export default function ChangePasswordPage() {
               )}
             />
 
-            {/* Confirm Password Field */}
             <FormField
               control={form.control}
               name="confirmPassword"
@@ -118,9 +154,10 @@ export default function ChangePasswordPage() {
 
             <Button
               type="submit"
+              disabled={isPending}
               className="w-full bg-[#71A899] hover:bg-[#71A899]/90 text-white"
             >
-              Change Password
+              {isPending ? 'Resetting...' : 'Reset Password'}
             </Button>
           </form>
         </Form>

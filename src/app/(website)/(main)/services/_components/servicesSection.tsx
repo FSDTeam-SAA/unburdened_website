@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import ServiceCard from './serviceCard'
+import { useSession } from 'next-auth/react'
 
 const demoServices = [
   {
@@ -60,6 +61,9 @@ const demoServices = [
 
 export default function ServicesSection() {
   const [services] = useState(demoServices)
+
+  const currentUser = useSession()
+  console.log('Current User Session:', currentUser)
 
   return (
     <section className="px-4 py-16 md:py-20 lg:py-24">
