@@ -1,77 +1,42 @@
 'use client'
 
-import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import ServiceCard from './serviceCard'
-import { useSession } from 'next-auth/react'
+import { ServiceSkeleton } from './serviceSkeleton'
+import { ErrorState } from './errorState'
 
-const demoServices = [
-  {
-    id: 1,
-    title: 'One-on-One Coaching',
-    description:
-      'Personalized coaching sessions designed to help you identify mental barriers, develop practical strategies, and create sustainable change in your life.',
-    features: [
-      'Initial 90-minute deep dive session',
-      'Regular 60-minute follow-up sessions',
-      'Customized resources and exercises',
-      'Email support between sessions',
-    ],
-    image: '/images/services/services-1.jpg',
-  },
-  {
-    id: 2,
-    title: 'Group Workshops',
-    description:
-      'Interactive workshops for teams or organizations focused on mindfulness, stress reduction, and communication. Available both in-person and virtually.',
-    features: [
-      'Half-day or full-day sessions',
-      'Customized to group needs',
-      'Practical tools and takeaways',
-      'Follow-up resources and support',
-    ],
-    image: '/images/services/services-2.jpg',
-  },
-  {
-    id: 3,
-    title: 'Writing & Resources',
-    description:
-      'Thoughtful articles, essays, and practical guides to inspire reflection and provide guidance on your journey toward a more balanced life.',
-    features: [
-      'Weekly newsletter',
-      'In-depth guides and workbooks',
-      'Practical exercises and prompts',
-      'Recommended reading lists',
-    ],
-    image: '/images/services/services-3.jpg',
-  },
-  {
-    id: 4,
-    title: 'Public Speaking',
-    description:
-      'Engaging talks and presentations on mindfulness, intentional living, and creating positive change for events and organizations.',
-    features: [
-      'Keynote presentations',
-      'Panel discussions',
-      'Interactive Q&A sessions',
-      'Virtual and in-person options',
-    ],
-    image: '/images/services/services-4.jpg',
-  },
-]
+interface Service {
+  _id: string
+  serviceName: string
+  sessionInfo: string
+  description: string
+  uploadPhoto: string
+}
 
 export default function ServicesSection() {
-  const [services] = useState(demoServices)
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['services'],
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/services?limit=40`
+      )
+      if (!res.ok) throw new Error('Failed to fetch services')
+      return res.json()
+    },
+  })
 
-  const currentUser = useSession()
-  console.log('Current User Session:', currentUser)
+  if (isLoading) return <ServiceSkeleton />
+  if (isError || !data?.success) return <ErrorState />
+
+  const services = data.services || []
 
   return (
     <section className="px-4 py-16 md:py-20 lg:py-24">
-      <div className=" space-y-3.5 mb-12">
+      <div className="space-y-3.5 mb-12">
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#5A8DEE]">
           Services
         </h2>
-        <p className="text-[#616161] mt-2 ">
+        <p className="text-[#616161] mt-2">
           Empowering you with mindful coaching, workshops, and tools designed to
           create clarity, balance, and meaningful transformation in everyday
           life.
@@ -79,13 +44,13 @@ export default function ServicesSection() {
       </div>
 
       <div className="grid md:grid-cols-2 gap-8">
-        {services.map((service) => (
+        {services.map((service: Service) => (
           <ServiceCard
-            key={service.id}
-            title={service.title}
+            key={service._id}
+            title={service.serviceName}
             description={service.description}
-            features={service.features}
-            image={service.image}
+            image={service.uploadPhoto}
+            features={[service.sessionInfo]}
           />
         ))}
       </div>
