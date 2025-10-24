@@ -1,74 +1,95 @@
+// components/shared/blogs/blogCard.tsx
 'use client'
 
 import React from 'react'
 import Image from 'next/image'
-import { Calendar } from 'lucide-react'
+import { Calendar, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-export interface BlogCardProps {
-  thumbnail: string
-  category: string
-  title: string
-  description: string
-  publishedDate: string
-  blogLink?: string
+import { format } from 'date-fns'
+import { Blog } from '../../../../types/blog'
+
+interface BlogCardProps {
+  blog: Blog
 }
 
-export default function BlogCard({
-  thumbnail,
-  category,
-  title,
-  description,
-  publishedDate,
-  blogLink,
-}: BlogCardProps) {
+export default function BlogCard({ blog }: BlogCardProps) {
   const handleReadMore = () => {
-    if (blogLink) {
-      window.open(blogLink, '_blank')
-    }
+    window.open(`/blog/${blog._id}`, '_self')
   }
 
+  // Format date
+  const formattedDate = blog.createdAt
+    ? format(new Date(blog.createdAt), 'MMMM dd, yyyy')
+    : 'Date unavailable'
+
   return (
-    <div className="bg-[#F7F8FA] rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+    <div className="bg-[#F7F8FA] rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group">
       {/* Thumbnail */}
-      <div className="relative h-[220px] bg-gray-200 cursor-pointer group overflow-hidden">
-        <Image
-          src={thumbnail}
-          alt={title}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover group-hover:scale-105 transition-transform duration-300"
-        />
+      <div className="relative h-[220px] bg-gray-200 cursor-pointer overflow-hidden">
+        {blog.uploadPhoto ? (
+          <Image
+            src={blog.uploadPhoto}
+            alt={blog.title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200">
+            <span className="text-5xl">📝</span>
+          </div>
+        )}
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
       </div>
 
       {/* Content */}
       <div className="p-6 space-y-3">
-        {/* Category and Date */}
+        {/* Status Badge and Date */}
         <div className="flex items-center justify-between text-sm">
-          <span className="text-[#1C2A39] font-medium">{category}</span>
+          <span
+            className={`px-3 py-1 rounded-full text-xs font-medium ${
+              blog.status === 'published'
+                ? 'bg-green-100 text-green-700'
+                : 'bg-gray-100 text-gray-700'
+            }`}
+          >
+            {blog.status === 'published' ? 'Published' : 'Draft'}
+          </span>
           <span className="flex items-center font-light gap-1.5 text-[#6B7280]">
             <Calendar className="w-4 h-4" />
-            {publishedDate}
+            {formattedDate}
           </span>
         </div>
 
         {/* Title */}
-        <h3 className="text-[#5A8DEE] font-semibold text-sm md:text-lg leading-tight hover:underline cursor-pointer line-clamp-2">
-          {title}
+        <h3
+          className="text-[#5A8DEE] font-semibold text-sm md:text-lg leading-tight hover:underline cursor-pointer line-clamp-2"
+          onClick={handleReadMore}
+        >
+          {blog.title}
         </h3>
 
         {/* Description */}
         <p className="text-[#616161] text-sm leading-relaxed line-clamp-3">
-          {description}
+          {blog.description || 'No description available'}
         </p>
 
-        {/* Read More Button */}
-        <Button
-          onClick={handleReadMore}
-          className="mt-4 bg-[#5A8DEE] hover:bg-[#4a7dd9] text-white px-6 py-2 rounded-md text-sm font-medium transition-colors duration-200"
-        >
-          Read More
-        </Button>
+        {/* Read Time and Button */}
+        <div className="flex items-center justify-between pt-2">
+          {blog.readTime && (
+            <span className="flex items-center gap-1.5 text-xs text-[#6B7280]">
+              <Clock className="w-3.5 h-3.5" />
+              {blog.readTime}
+            </span>
+          )}
+          <Button
+            onClick={handleReadMore}
+            className="bg-[#5A8DEE] hover:bg-[#4a7dd9] text-white px-6 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+          >
+            Read More
+          </Button>
+        </div>
       </div>
     </div>
   )
