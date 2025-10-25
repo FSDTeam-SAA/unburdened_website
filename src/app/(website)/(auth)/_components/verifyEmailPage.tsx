@@ -59,7 +59,7 @@ export default function VerifyEmailPage() {
   const { mutate: verifyOtp, isPending } = useMutation({
     mutationFn: async (data: { email: string; otp: string }) => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/verify-code`,
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-code`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -83,7 +83,7 @@ export default function VerifyEmailPage() {
     mutationFn: async () => {
       if (!email) throw new Error('Email not found')
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/forget-password`,
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/forget-password`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

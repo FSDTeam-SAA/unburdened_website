@@ -43,20 +43,17 @@ export function ContactForm() {
   // 🔹 React Query Mutation
   const mutation = useMutation({
     mutationFn: async (values: FormValues) => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/contracts`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            fullName: values.name,
-            email: values.email,
-            phoneNumber: values.phone,
-            occupation: values.occupation,
-            message: values.message,
-          }),
-        }
-      )
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contracts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: values.name,
+          email: values.email,
+          phoneNumber: values.phone,
+          occupation: values.occupation,
+          message: values.message,
+        }),
+      })
       const data = await res.json()
       if (!res.ok) {
         throw new Error(data?.message || 'Failed to send message.')

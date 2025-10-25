@@ -18,7 +18,7 @@ export default function ServicesSection() {
     queryKey: ['services'],
     queryFn: async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/services?limit=40`
+        `${process.env.NEXT_PUBLIC_API_URL}/services?limit=40`
       )
       if (!res.ok) throw new Error('Failed to fetch services')
       return res.json()

@@ -30,7 +30,7 @@ export function BlogSection({
     queryKey: ['blogs', currentPage, limit],
     queryFn: async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blogs?page=${currentPage}&limit=${limit}`
+        `${process.env.NEXT_PUBLIC_API_URL}/blogs?page=${currentPage}&limit=${limit}`
       )
       if (!res.ok) throw new Error('Failed to fetch blogs')
       return res.json()

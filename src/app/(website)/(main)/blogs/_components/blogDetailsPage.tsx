@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Calendar, Clock } from 'lucide-react'
 import { format } from 'date-fns'
-import { HeroBanner } from '@/components/shared/subBanner'
+// import { HeroBanner } from '@/components/shared/subBanner'
 // import AllBlogSection from '../_components/allBlogsSection'
 
 import { BlogsPageSkeleton } from '../_components/blogsPageSkeleton'
@@ -17,24 +17,18 @@ import { Blog, BlogsResponse } from '../../../../../../types/blog'
 async function fetchBlog(
   id: string
 ): Promise<{ success: boolean; blog: Blog }> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blogs/${id}`,
-    {
-      cache: 'no-store',
-    }
-  )
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs/${id}`, {
+    cache: 'no-store',
+  })
   if (!res.ok) throw new Error('Failed to fetch blog details')
   return res.json()
 }
 
 // 🔹 Fetch similar blogs (can reuse from your blogs API)
 async function fetchSimilarBlogs(): Promise<BlogsResponse> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blogs?limit=6`,
-    {
-      cache: 'no-store',
-    }
-  )
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs?limit=6`, {
+    cache: 'no-store',
+  })
   if (!res.ok) throw new Error('Failed to fetch similar blogs')
   return res.json()
 }
@@ -72,7 +66,7 @@ export default function BlogDetailsPage() {
       /> */}
 
       {/* 🔹 Blog Details */}
-      <section className="container mx-auto px-2 py-12 md:py-16">
+      <section className="container mx-auto px-2  py-4 md:py-16">
         {/* Image */}
         <div className="w-full h-[400px] md:h-[500px] lg:h-[700px] relative rounded-2xl overflow-hidden shadow-md mb-10">
           {blog.uploadPhoto ? (
