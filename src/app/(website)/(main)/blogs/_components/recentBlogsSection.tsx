@@ -50,7 +50,7 @@ export default function RecentBlogsSection({ blogs }: RecentBlogsSectionProps) {
         {/* Left Large Blog Card */}
         {mainBlog && (
           <Link
-            href={`/blog/${mainBlog._id}`}
+            href={`/blogs/${mainBlog._id}`}
             className="group lg:col-span-2 bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full"
           >
             <div className="relative h-64 md:h-80 lg:h-96 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">

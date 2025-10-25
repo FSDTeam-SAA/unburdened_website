@@ -12,7 +12,7 @@ import { BlogsPageError } from './_components/blogsPageError'
 // Fetch function (takes page as param)
 async function fetchBlogs(page: number): Promise<BlogsResponse> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blogs?page=${page}&limit=10`,
+    `${process.env.NEXT_PUBLIC_API_URL}/blogs?page=${page}&limit=10`,
     {
       cache: 'no-store',
     }

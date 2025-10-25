@@ -1,11 +1,10 @@
-// components/shared/blogs/blogCard.tsx
 'use client'
 
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Calendar, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-
 import { format } from 'date-fns'
 import { Blog } from '../../../../types/blog'
 
@@ -14,10 +13,6 @@ interface BlogCardProps {
 }
 
 export default function BlogCard({ blog }: BlogCardProps) {
-  const handleReadMore = () => {
-    window.open(`/blog/${blog._id}`, '_self')
-  }
-
   // Format date
   const formattedDate = blog.createdAt
     ? format(new Date(blog.createdAt), 'MMMM dd, yyyy')
@@ -26,7 +21,10 @@ export default function BlogCard({ blog }: BlogCardProps) {
   return (
     <div className="bg-[#F7F8FA] rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group">
       {/* Thumbnail */}
-      <div className="relative h-[220px] bg-gray-200 cursor-pointer overflow-hidden">
+      <Link
+        href={`/blogs/${blog._id}`}
+        className="relative h-[220px] bg-gray-200 cursor-pointer overflow-hidden block"
+      >
         {blog.uploadPhoto ? (
           <Image
             src={blog.uploadPhoto}
@@ -41,7 +39,7 @@ export default function BlogCard({ blog }: BlogCardProps) {
           </div>
         )}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-      </div>
+      </Link>
 
       {/* Content */}
       <div className="p-6 space-y-3">
@@ -63,12 +61,12 @@ export default function BlogCard({ blog }: BlogCardProps) {
         </div>
 
         {/* Title */}
-        <h3
+        <Link
+          href={`/blog/${blog._id}`}
           className="text-[#5A8DEE] font-semibold text-sm md:text-lg leading-tight hover:underline cursor-pointer line-clamp-2"
-          onClick={handleReadMore}
         >
           {blog.title}
-        </h3>
+        </Link>
 
         {/* Description */}
         <p className="text-[#616161] text-sm leading-relaxed line-clamp-3">
@@ -83,12 +81,12 @@ export default function BlogCard({ blog }: BlogCardProps) {
               {blog.readTime}
             </span>
           )}
-          <Button
-            onClick={handleReadMore}
-            className="bg-[#5A8DEE] hover:bg-[#4a7dd9] text-white px-6 py-2 rounded-md text-sm font-medium transition-colors duration-200"
-          >
-            Read More
-          </Button>
+
+          <Link href={`/blogs/${blog._id}`}>
+            <Button className="bg-[#5A8DEE] hover:bg-[#4a7dd9] text-white px-6 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+              Read More
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

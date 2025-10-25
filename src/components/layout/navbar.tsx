@@ -32,9 +32,11 @@ export default function Navbar() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Left - Logo */}
-          <div className="flex-shrink-0 text-[#5A8DEE] font-semibold text-lg md:text-xl font-sans">
-            The <span className="font-bold text-2xl">Unburdened</span> Mind
-          </div>
+          <Link href={'/'}>
+            <div className="flex-shrink-0 text-[#5A8DEE] font-semibold text-lg md:text-xl font-sans">
+              The <span className="font-bold text-2xl">Unburdened</span> Mind
+            </div>
+          </Link>
 
           {/* Mobile Menu Button */}
           <div className="flex md:hidden">

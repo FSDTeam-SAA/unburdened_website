@@ -35,7 +35,7 @@ export function PodcastSection({
 
   // Build query URL based on mediaType
   const buildQueryUrl = () => {
-    const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/podcasts`
+    const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/podcasts`
     const params = new URLSearchParams({
       page: currentPage.toString(),
       limit: limit.toString(),

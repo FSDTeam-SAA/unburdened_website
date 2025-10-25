@@ -12,7 +12,7 @@ export default function HeroSection() {
     <section className="w-full bg-white py-24 md:py-28 lg:py-36">
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 items-start gap-8">
         {/* Left Side Content */}
-        <div className="text-center font-bold md:text-left space-y-6 lg:pt-16 ">
+        <div className="text-center font-bold md:text-left space-y-8 lg:pt-16 ">
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-800">
             Growth at work starts{' '}
             <span className="text-[#5A8DEE] font-bold">
@@ -20,7 +20,7 @@ export default function HeroSection() {
             </span>
           </h1>
 
-          <p className="text-[#616161] font-normal max-w-md mx-auto md:mx-0">
+          <p className="text-[#616161] font-normal max-w-2xl mx-auto md:mx-0">
             The UnBurdened Mind helps leaders navigate the space between
             personal insight and professional influence. Because real change
             moves through people, not processes.
