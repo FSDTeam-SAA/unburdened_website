@@ -18,9 +18,9 @@ import { Button } from '@/components/ui/button'
 import AuthLayout from './authLayout'
 import Link from 'next/link'
 import { Eye, EyeOff } from 'lucide-react'
-import { useMutation } from '@tanstack/react-query'
-import { toast } from 'sonner' // optional toast library, you can remove if not using
+import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
 
 const signinSchema = z.object({
   email: z.string().email('Invalid email'),
@@ -29,6 +29,7 @@ const signinSchema = z.object({
 
 export default function SigninPage() {
   const [showPassword, setShowPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
   const form = useForm<z.infer<typeof signinSchema>>({
@@ -36,33 +37,35 @@ export default function SigninPage() {
     defaultValues: { email: '', password: '' },
   })
 
-  // --- React Query Mutation ---
-  const { mutate: login, isPending } = useMutation({
-    mutationFn: async (data: { email: string; password: string }) => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+  const onSubmit = async (values: z.infer<typeof signinSchema>) => {
+    try {
+      setIsLoading(true)
+
+      // NextAuth credentials login
+      const res = await signIn('credentials', {
+        email: values.email,
+        password: values.password,
+        redirect: false, // we’ll redirect manually
       })
 
-      const result = await res.json()
-      if (!res.ok) throw new Error(result.message || 'Login failed')
-      return result
-    },
-    onSuccess: (data) => {
-      toast.success('Login successful')
-      console.log('✅ Logged in user:', data)
+      setIsLoading(false)
 
-      // Optional: redirect to dashboard
-      router.push('/')
-    },
-    onError: (error: any) => {
-      toast.error(error.message || 'Login failed')
-    },
-  })
+      if (!res) {
+        toast.error('Something went wrong. Please try again.')
+        return
+      }
 
-  const onSubmit = (values: z.infer<typeof signinSchema>) => {
-    login(values)
+      if (res.error) {
+        toast.error(res.error)
+        return
+      }
+
+      toast.success('Login successful 🎉')
+      router.push('/') // ✅ redirect to homepage
+    } catch (err: any) {
+      setIsLoading(false)
+      toast.error(err?.message || 'Login failed')
+    }
   }
 
   return (
@@ -89,7 +92,11 @@ export default function SigninPage() {
                     Email Address
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder="Email Address" {...field} />
+                    <Input
+                      type="email"
+                      placeholder="Email Address"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage className="text-red-400 font-medium" />
                 </FormItem>
@@ -148,9 +155,9 @@ export default function SigninPage() {
             <Button
               type="submit"
               className="w-full bg-[#71A899] hover:bg-[#71A899]/90 cursor-pointer text-white"
-              disabled={isPending}
+              disabled={isLoading}
             >
-              {isPending ? 'Logging in...' : 'Log In'}
+              {isLoading ? 'Logging in...' : 'Log In'}
             </Button>
 
             {/* Sign Up link */}

@@ -6,17 +6,18 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { Menu, X } from 'lucide-react'
 import { Button } from '../ui/button'
+import { useSession } from 'next-auth/react'
 
 export default function Navbar() {
   const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
 
   // Dummy logged-in state
-  // const cu = useSession()
-  // console.log('current user session:', cu)
+  const cu = useSession()
+  console.log('current user session:', cu)
 
-  const isLoggedIn = false
-  const userImage = '/user-avatar.png' // replace later with dynamic image
+  const isLoggedIn = cu?.status === 'authenticated'
+  const userImage = cu?.data?.user?.image || '/user-avatar.png'
 
   const links = [
     { name: 'Home', href: '/' },
