@@ -69,10 +69,12 @@ export default function BlogCard({ blog }: BlogCardProps) {
         </Link>
 
         {/* Description */}
-        <p className="text-[#616161] text-sm leading-relaxed line-clamp-3">
-          {blog.description || 'No description available'}
-        </p>
-
+        <p
+          className="text-[#616161] text-sm leading-relaxed line-clamp-3"
+          dangerouslySetInnerHTML={{
+            __html: blog.description || 'No description available',
+          }}
+        />
         {/* Read Time and Button */}
         <div className="flex items-center justify-between pt-2">
           {blog.readTime && (

@@ -1,10 +1,10 @@
 import React from 'react'
-import ChangePasswordPage from '../_components/changePasswordPage'
+import ResetPasswordPage from '../_components/changePasswordPage'
 
 const page = () => {
   return (
     <>
-      <ChangePasswordPage />
+      <ResetPasswordPage />
     </>
   )
 }
