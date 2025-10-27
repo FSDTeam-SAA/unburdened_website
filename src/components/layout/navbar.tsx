@@ -66,7 +66,7 @@ export default function Navbar() {
           </div>
 
           {/* Right - Buttons */}
-          <div className="hidden md:flex items-center space-x-3">
+          <div className="hidden md:flex items-center gap-2 space-x-3">
             <Link href={'/contact'}>
               <Button
                 variant="outline"
@@ -78,7 +78,7 @@ export default function Navbar() {
 
             {isLoggedIn ? (
               <Link className="cursor-pointer" href={'/account'}>
-                <div className="relative w-9 h-9">
+                <div className="relative w-10 h-10">
                   <Image
                     src={userImage}
                     alt="User Avatar"

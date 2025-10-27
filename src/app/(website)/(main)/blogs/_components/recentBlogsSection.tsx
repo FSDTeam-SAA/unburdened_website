@@ -89,9 +89,12 @@ export default function RecentBlogsSection({ blogs }: RecentBlogsSectionProps) {
                 {mainBlog.title}
               </h3>
 
-              <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-6 line-clamp-3 flex-1">
-                {mainBlog.description || 'No description available'}
-              </p>
+              <p
+                className="text-gray-600 text-base md:text-lg leading-relaxed mb-6 line-clamp-3 flex-1"
+                dangerouslySetInnerHTML={{
+                  __html: mainBlog.description || 'No description available',
+                }}
+              />
 
               <div className="flex items-center text-[#5A8DEE] font-semibold text-base group-hover:gap-3 gap-2 transition-all duration-300">
                 <span>Read Full Article</span>
@@ -148,9 +151,12 @@ export default function RecentBlogsSection({ blogs }: RecentBlogsSectionProps) {
                     {blog.title}
                   </h4>
 
-                  <p className="text-gray-600 text-sm line-clamp-2 mb-3">
-                    {blog.description || 'No description available'}
-                  </p>
+                  <p
+                    className="text-[#616161] text-sm leading-relaxed line-clamp-3"
+                    dangerouslySetInnerHTML={{
+                      __html: blog.description || 'No description available',
+                    }}
+                  />
                 </div>
 
                 <div className="flex items-center text-[#5A8DEE] font-semibold text-sm group-hover:gap-2 gap-1 transition-all duration-300">
