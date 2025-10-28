@@ -144,6 +144,8 @@ export default function BlogDetailsPage() {
                       alt={blog.title}
                       fill
                       className="object-cover transform group-hover:scale-110 transition-transform duration-500"
+                      priority
+                      quality={100}
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-50 to-purple-100">

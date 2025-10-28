@@ -44,7 +44,7 @@ export default function SettingsPage() {
     refetch: refetchProfile,
   } = useGetUserProfile(accessToken)
 
-  console.log('Profile Data:', profileData)
+  console.log('Profile Image:', profileImage)
 
   const { mutate: updateProfile, isPending: isUpdatingProfile } =
     useUpdateProfile(accessToken, {
@@ -167,16 +167,16 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="container mx-auto p-6">
-      <div className="mb-5 mt-16 lg:mt-20 ">
+    <div className="container min-h-[90vh] mx-auto py-6">
+      <div className="pb-5 pt-20 lg:pt-28 px-4">
         <h1 className="text-3xl font-bold text-[#5A8DEE] mb-2">Settings</h1>
         <p className="text-gray-600">
           Manage your account settings and preferences
         </p>
       </div>
 
-      <Card>
-        <CardContent className="p-6">
+      <Card className="border-none shadow-none">
+        <CardContent className="py-6">
           <div className="flex border-b mb-6">
             <button
               onClick={() => setActiveTab('profile')}
