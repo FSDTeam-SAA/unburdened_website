@@ -20,7 +20,7 @@ export default function HeroSection() {
             </span>
           </h1>
 
-          <p className="text-[#616161] font-normal max-w-2xl mx-auto md:mx-0">
+          <p className="text-[#616161] text-base md:text-lg font-normal max-w-2xl mx-auto leading-[150%] md:mx-0">
             The UnBurdened Mind helps leaders navigate the space between
             personal insight and professional influence. Because real change
             moves through people, not processes.

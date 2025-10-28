@@ -17,7 +17,7 @@ export default function Navbar() {
   console.log('current user session:', cu)
 
   const isLoggedIn = cu?.status === 'authenticated'
-  const userImage = cu?.data?.user?.image || '/user-avatar.png'
+  const userImage = cu?.data?.user?.profileImage || '/user-avatar.png'
 
   const links = [
     { name: 'Home', href: '/' },
