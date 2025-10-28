@@ -1,10 +1,9 @@
-// ==================== FILE: _components/SettingsPage.tsx (UPDATED) ====================
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import { Card, CardContent } from '@/components/ui/card'
-import { Loader2 } from 'lucide-react'
+import { Loader2, LogOut } from 'lucide-react'
 import {
   useGetUserProfile,
   useUpdateProfile,
@@ -16,6 +15,7 @@ import { toast } from 'sonner'
 import { ProfileImageUpload } from './profileImageUpload'
 import { ProfileForm } from './profileForm'
 import { PasswordForm } from './passwordForm'
+import { Button } from '@/components/ui/button'
 
 export default function SettingsPage() {
   const { data: session, update: updateSession } = useSession()
@@ -44,15 +44,11 @@ export default function SettingsPage() {
     refetch: refetchProfile,
   } = useGetUserProfile(accessToken)
 
-  console.log('Profile Image:', profileImage)
-
   const { mutate: updateProfile, isPending: isUpdatingProfile } =
     useUpdateProfile(accessToken, {
       onSuccess: async () => {
         toast.success('Profile updated successfully ✅')
-        // Refetch profile to get latest data
         await refetchProfile()
-        // Update session if username changed
         await updateSession()
       },
       onError: (error: Error) =>
@@ -64,7 +60,6 @@ export default function SettingsPage() {
       onSuccess: async () => {
         toast.success('Profile image updated successfully ✅')
         setImageFile(null)
-        // Force refetch to get the new image immediately
         await refetchProfile()
       },
       onError: (error: Error) =>
@@ -158,6 +153,15 @@ export default function SettingsPage() {
     }
   }
 
+  const handleLogout = async () => {
+    try {
+      await signOut({ redirect: true, callbackUrl: '/' })
+      toast.success('Logged out successfully 👋')
+    } catch (error) {
+      toast.error('Logout failed, please try again ❌')
+    }
+  }
+
   if (profileLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -168,19 +172,33 @@ export default function SettingsPage() {
 
   return (
     <div className="container min-h-[90vh] mx-auto py-6">
-      <div className="pb-5 pt-20 lg:pt-28 px-4">
-        <h1 className="text-3xl font-bold text-[#5A8DEE] mb-2">Settings</h1>
-        <p className="text-gray-600">
-          Manage your account settings and preferences
-        </p>
+      {/* Header Section */}
+      <div className="flex flex-col px-3 sm:flex-row justify-between items-start sm:items-center pt-20 lg:pt-28 gap-4">
+        <div className="px-4">
+          <h1 className="text-3xl font-bold text-[#5A8DEE] mb-2">Settings</h1>
+          <p className="text-gray-600">
+            Manage your account settings and preferences
+          </p>
+        </div>
+
+        {/* Logout Button (Responsive) */}
+        <Button
+          onClick={handleLogout}
+          className="flex items-center gap-2 bg-[#E53E3E] hover:bg-[#cc3232] text-white font-medium px-4 py-2 rounded-lg transition-colors mx-4 sm:mx-0"
+        >
+          <LogOut size={20} />
+          <span>Log Out</span>
+        </Button>
       </div>
 
+      {/* Settings Card */}
       <Card className="border-none shadow-none">
         <CardContent className="py-6">
-          <div className="flex border-b mb-6">
+          {/* Tabs */}
+          <div className="flex border-b mb-6 overflow-x-auto">
             <button
               onClick={() => setActiveTab('profile')}
-              className={`px-6 py-3 font-medium transition-colors ${
+              className={`px-6 py-3 font-medium transition-colors whitespace-nowrap ${
                 activeTab === 'profile'
                   ? 'text-blue-600 border-b-2 border-blue-600'
                   : 'text-gray-600 hover:text-gray-900'
@@ -190,7 +208,7 @@ export default function SettingsPage() {
             </button>
             <button
               onClick={() => setActiveTab('password')}
-              className={`px-6 py-3 font-medium transition-colors ${
+              className={`px-6 py-3 font-medium transition-colors whitespace-nowrap ${
                 activeTab === 'password'
                   ? 'text-blue-600 border-b-2 border-blue-600'
                   : 'text-gray-600 hover:text-gray-900'
@@ -200,6 +218,7 @@ export default function SettingsPage() {
             </button>
           </div>
 
+          {/* Profile Tab */}
           {activeTab === 'profile' && (
             <div className="space-y-6">
               <ProfileImageUpload
@@ -227,6 +246,7 @@ export default function SettingsPage() {
             </div>
           )}
 
+          {/* Password Tab */}
           {activeTab === 'password' && (
             <PasswordForm
               oldPassword={oldPassword}

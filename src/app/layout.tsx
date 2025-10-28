@@ -69,7 +69,7 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions)
 
   return (
-    <html suppressHydrationWarning lang="en">
+    <html suppressHydrationWarning={true} lang="en">
       <body
         className={`${roboto.variable} ${geistSans.variable} ${geistMono.variable} font-roboto antialiased min-h-screen bg-white text-black`}
       >
