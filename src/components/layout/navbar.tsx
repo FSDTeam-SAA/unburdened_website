@@ -7,17 +7,19 @@ import Image from 'next/image'
 import { Menu, X } from 'lucide-react'
 import { Button } from '../ui/button'
 import { useSession } from 'next-auth/react'
+import { useGetUserProfile } from '@/lib/profileApi'
 
+// ==================== NAVBAR ====================
 export default function Navbar() {
   const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
 
-  // Dummy logged-in state
-  const cu = useSession()
-  console.log('current user session:', cu)
+  const { data: sessionData, status } = useSession()
+  const accessToken = sessionData?.user?.accessToken || ''
 
-  const isLoggedIn = cu?.status === 'authenticated'
-  const userImage = cu?.data?.user?.profileImage || '/user-avatar.png'
+  const { data: profileData } = useGetUserProfile(accessToken)
+  const isLoggedIn = status === 'authenticated'
+  const userImage = profileData?.data?.profileImage || '/user-avatar.png'
 
   const links = [
     { name: 'Home', href: '/' },

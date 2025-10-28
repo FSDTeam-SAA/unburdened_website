@@ -95,7 +95,7 @@ export const useUpdateProfileImage = (accessToken: string, options?: any) => {
 
   return useMutation({
     mutationFn: async (formData: FormData) => {
-      const res = await fetch(`${API_BASE_URL}/user/upload-avatar`, {
+      const res = await fetch(`${API_BASE_URL}/profile/update-profile-image`, {
         method: 'PUT',
         body: formData,
         credentials: 'include',
