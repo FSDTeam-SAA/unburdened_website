@@ -7,17 +7,19 @@ import Image from 'next/image'
 import { Menu, X } from 'lucide-react'
 import { Button } from '../ui/button'
 import { useSession } from 'next-auth/react'
+import { useGetUserProfile } from '@/lib/profileApi'
 
+// ==================== NAVBAR ====================
 export default function Navbar() {
   const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
 
-  // Dummy logged-in state
-  const cu = useSession()
-  console.log('current user session:', cu)
+  const { data: sessionData, status } = useSession()
+  const accessToken = sessionData?.user?.accessToken || ''
 
-  const isLoggedIn = cu?.status === 'authenticated'
-  const userImage = cu?.data?.user?.image || '/user-avatar.png'
+  const { data: profileData } = useGetUserProfile(accessToken)
+  const isLoggedIn = status === 'authenticated'
+  const userImage = profileData?.data?.profileImage || '/user-avatar.png'
 
   const links = [
     { name: 'Home', href: '/' },
@@ -27,6 +29,14 @@ export default function Navbar() {
     { name: 'Podcast', href: '/podcast' },
     { name: 'Contact', href: '/contact' },
   ]
+
+  // Helper function to check active link (nested paths)
+  const isActiveLink = (href: string) => {
+    if (href === '/') return pathname === '/'
+    const pathnameSegments = pathname.split('/').filter(Boolean)
+    const hrefSegments = href.split('/').filter(Boolean)
+    return pathnameSegments[0] === hrefSegments[0]
+  }
 
   return (
     <nav className="bg-[#719cec14] backdrop-blur-3xl fixed w-full z-50 shadow-sm">
@@ -57,7 +67,7 @@ export default function Navbar() {
                 key={link.name}
                 href={link.href}
                 className={`relative text-[#5A8DEE] font-medium transition-all duration-200 hover:opacity-80 ${
-                  pathname === link.href ? 'after:w-full' : 'after:w-0'
+                  isActiveLink(link.href) ? 'after:w-full' : 'after:w-0'
                 } after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-[#5A8DEE] after:transition-all after:duration-300 hover:after:w-full`}
               >
                 {link.name}
@@ -106,7 +116,7 @@ export default function Navbar() {
               href={link.href}
               onClick={() => setMenuOpen(false)}
               className={`block text-[#5A8DEE] font-medium py-2 border-b border-[#5A8DEE20] ${
-                pathname === link.href ? 'underline underline-offset-4' : ''
+                isActiveLink(link.href) ? 'underline underline-offset-4' : ''
               }`}
             >
               {link.name}

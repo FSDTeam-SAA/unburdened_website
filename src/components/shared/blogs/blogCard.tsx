@@ -44,15 +44,15 @@ export default function BlogCard({ blog }: BlogCardProps) {
       {/* Content */}
       <div className="p-6 space-y-3">
         {/* Status Badge and Date */}
-        <div className="flex items-center justify-between text-sm">
+        <div className="flex items-center justify-between text-sm pb-4">
           <span
             className={`px-3 py-1 rounded-full text-xs font-medium ${
-              blog.status === 'published'
+              blog.status === 'Published'
                 ? 'bg-green-100 text-green-700'
                 : 'bg-gray-100 text-gray-700'
             }`}
           >
-            {blog.status === 'published' ? 'Published' : 'Draft'}
+            {blog.status === 'Published' ? 'Published' : 'Draft'}
           </span>
           <span className="flex items-center font-light gap-1.5 text-[#6B7280]">
             <Calendar className="w-4 h-4" />
@@ -62,7 +62,7 @@ export default function BlogCard({ blog }: BlogCardProps) {
 
         {/* Title */}
         <Link
-          href={`/blog/${blog._id}`}
+          href={`/blogs/${blog._id}`}
           className="text-[#5A8DEE] font-semibold text-sm md:text-lg leading-tight hover:underline cursor-pointer line-clamp-2"
         >
           {blog.title}

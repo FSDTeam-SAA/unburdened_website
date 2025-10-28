@@ -11,25 +11,15 @@ import {
   Twitter,
 } from 'lucide-react'
 import { Button } from '../ui/button'
+import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
+// ================== INTERFACE ==================
 interface FooterProps {
-  logo?: {
-    text: string
-    highlight: string
-  }
-  quickLinks?: Array<{
-    label: string
-    href: string
-  }>
-  contactInfo?: {
-    email: string
-    phone: string
-    address: string
-  }
-  newsletter?: {
-    title: string
-    subtitle: string
-  }
+  logo?: { text: string; highlight: string }
+  quickLinks?: Array<{ label: string; href: string }>
+  contactInfo?: { email: string; phone: string; address: string }
+  newsletter?: { title: string; subtitle: string }
   socialLinks?: {
     facebook?: string
     instagram?: string
@@ -39,6 +29,7 @@ interface FooterProps {
   copyright?: string
 }
 
+// ================== COMPONENT ==================
 export function Footer({
   logo = { text: 'The ', highlight: 'Unburdened' },
   quickLinks = [
@@ -48,10 +39,9 @@ export function Footer({
     { label: 'Blog', href: '/blog' },
   ],
   contactInfo = {
-    email: 'support@unburdened mind.com',
-    phone: '+1 (555) 123-4567FGHJ',
-    address:
-      '123 Care Street, City, State, ZIP Address: 123 Care Street, City, State, ZIP',
+    email: 'support@unburdenedmind.com',
+    phone: '+1 (555) 123-4567',
+    address: '123 Care Street, City, State, ZIP',
   },
   newsletter = {
     title: 'Newsletter',
@@ -67,11 +57,41 @@ export function Footer({
 }: FooterProps) {
   const [email, setEmail] = useState('')
 
-  const handleSubscribe = () => {
-    if (email) {
-      console.log('Subscribing:', email)
+  //  React Query Mutation
+  const subscribeMutation = useMutation({
+    mutationFn: async (email: string) => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/broadcast/subscribe`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        }
+      )
+
+      if (!res.ok) {
+        const err = await res.json()
+        throw new Error(err.message || 'Failed to subscribe')
+      }
+
+      return res.json()
+    },
+    onSuccess: () => {
+      toast.success('🎉 Successfully subscribed!')
       setEmail('')
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: any) => {
+      toast.error(error.message || 'Subscription failed')
+    },
+  })
+
+  const handleSubscribe = () => {
+    if (!email) {
+      toast.warning('Please enter your email address!')
+      return
     }
+    subscribeMutation.mutate(email)
   }
 
   return (
@@ -133,6 +153,7 @@ export function Footer({
               {newsletter.title}
             </h3>
             <p className="text-[#68706A] text-sm mb-4">{newsletter.subtitle}</p>
+
             <div className="flex gap-1">
               <input
                 type="email"
@@ -143,9 +164,10 @@ export function Footer({
               />
               <Button
                 onClick={handleSubscribe}
+                disabled={subscribeMutation.isPending}
                 className="bg-[#5A8DEE] hover:bg-[#4a7dd9] text-white px-6 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap"
               >
-                Subscribe
+                {subscribeMutation.isPending ? 'Subscribing...' : 'Subscribe'}
               </Button>
             </div>
 
@@ -195,7 +217,7 @@ export function Footer({
           </div>
         </div>
 
-        {/* Bottom Border and Copyright */}
+        {/* Copyright */}
         <div className="border-t border-[#90B3F4] pt-6">
           <p className="text-center text-[#68706A] text-sm">{copyright}</p>
         </div>

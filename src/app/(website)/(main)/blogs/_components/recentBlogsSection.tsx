@@ -112,7 +112,7 @@ export default function RecentBlogsSection({ blogs }: RecentBlogsSectionProps) {
           {sideBlogs.map((blog) => (
             <Link
               key={blog._id}
-              href={`/blog/${blog._id}`}
+              href={`/blogs/${blog._id}`}
               className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col sm:flex-row flex-1"
             >
               <div className="relative w-full sm:w-2/5 h-48 sm:h-auto overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">

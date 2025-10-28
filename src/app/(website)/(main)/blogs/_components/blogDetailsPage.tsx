@@ -26,9 +26,12 @@ async function fetchBlog(
 
 // 🔹 Fetch similar blogs (can reuse from your blogs API)
 async function fetchSimilarBlogs(): Promise<BlogsResponse> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs?limit=6`, {
-    cache: 'no-store',
-  })
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/blogs?limit=6&status=Published`,
+    {
+      cache: 'no-store',
+    }
+  )
   if (!res.ok) throw new Error('Failed to fetch similar blogs')
   return res.json()
 }
@@ -55,6 +58,8 @@ export default function BlogDetailsPage() {
   const blog = data.blog
   const similarBlogs = similarData?.blogs || []
 
+  console.log('single blog data:', blog?.description)
+
   return (
     <div className="pt-20 md:pt-24">
       {/* 🔹 Hero Banner
@@ -66,7 +71,7 @@ export default function BlogDetailsPage() {
       /> */}
 
       {/* 🔹 Blog Details */}
-      <section className="container mx-auto px-2  py-4 md:py-16">
+      <section className="container mx-auto px-2  py-4 md:py-16 mb-6">
         {/* Image */}
         <div className="w-full h-[400px] md:h-[500px] lg:h-[700px] relative rounded-2xl overflow-hidden shadow-md mb-10">
           {blog.uploadPhoto ? (
@@ -104,12 +109,12 @@ export default function BlogDetailsPage() {
         </h1>
 
         {/* Content */}
-        <div className="prose max-w-none text-gray-700 leading-relaxed px-2">
-          <p>
-            {blog.description ||
-              'No content available for this blog. Please check back later.'}
-          </p>
-        </div>
+        <div
+          className="text-[#616161] text-base md:text-lg leading-relaxed "
+          dangerouslySetInnerHTML={{
+            __html: blog.description || 'No description available',
+          }}
+        />
       </section>
 
       {/* 🔹 Similar Blogs */}
@@ -139,6 +144,8 @@ export default function BlogDetailsPage() {
                       alt={blog.title}
                       fill
                       className="object-cover transform group-hover:scale-110 transition-transform duration-500"
+                      priority
+                      quality={100}
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-50 to-purple-100">
@@ -152,12 +159,19 @@ export default function BlogDetailsPage() {
                     <Calendar size={12} />
                     {format(new Date(blog.createdAt), 'MMM dd, yyyy')}
                   </div>
+
                   <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2 group-hover:text-[#5A8DEE] transition-colors">
                     {blog.title}
                   </h3>
-                  <p className="text-gray-600 text-sm line-clamp-2 mb-4">
-                    {blog.description || 'No description available'}
-                  </p>
+
+                  {/* Use div instead of p */}
+                  <div
+                    className="text-[#616161] text-sm leading-relaxed line-clamp-3"
+                    dangerouslySetInnerHTML={{
+                      __html: blog.description || 'No description available',
+                    }}
+                  />
+
                   <span className="text-[#5A8DEE] font-medium">
                     Read More →
                   </span>

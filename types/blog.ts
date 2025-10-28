@@ -6,7 +6,7 @@ export interface Blog {
   description: string
   uploadPhoto: string
   featured: boolean
-  status: 'draft' | 'published'
+  status: 'Draft' | 'Published' | 'Pending'
   publicId: string | null
   cloudinaryId: string | null
   fileType: string
