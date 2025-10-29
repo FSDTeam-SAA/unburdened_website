@@ -13,6 +13,7 @@ import {
 import { Button } from '../ui/button'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import Link from 'next/link'
 
 // ================== INTERFACE ==================
 interface FooterProps {
@@ -36,7 +37,9 @@ export function Footer({
     { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
     { label: 'Services', href: '/services' },
-    { label: 'Blog', href: '/blog' },
+    { label: 'Blog', href: '/blogs' },
+    { label: 'Podcasts', href: '/podcast' },
+    // { label: 'Blog', href: '/blogs' },
   ],
   contactInfo = {
     email: 'support@unburdenedmind.com',
@@ -115,12 +118,12 @@ export function Footer({
             <ul className="space-y-2">
               {quickLinks.map((link, index) => (
                 <li key={index}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-[#68706A] hover:text-[#5A8DEE] transition-colors text-sm"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -174,44 +177,44 @@ export function Footer({
             {/* Social Icons */}
             <div className="flex gap-3 mt-6">
               {socialLinks.facebook && (
-                <a
+                <Link
                   href={socialLinks.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-[#68706A] hover:bg-[#5A8DEE] rounded flex items-center justify-center transition-colors"
                 >
                   <Facebook className="w-5 h-5 text-white" />
-                </a>
+                </Link>
               )}
               {socialLinks.instagram && (
-                <a
+                <Link
                   href={socialLinks.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-[#68706A] hover:bg-[#5A8DEE] rounded flex items-center justify-center transition-colors"
                 >
                   <Instagram className="w-5 h-5 text-white" />
-                </a>
+                </Link>
               )}
               {socialLinks.linkedin && (
-                <a
+                <Link
                   href={socialLinks.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-[#68706A] hover:bg-[#5A8DEE] rounded flex items-center justify-center transition-colors"
                 >
                   <Linkedin className="w-5 h-5 text-white" />
-                </a>
+                </Link>
               )}
               {socialLinks.twitter && (
-                <a
+                <Link
                   href={socialLinks.twitter}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-[#68706A] hover:bg-[#5A8DEE] rounded flex items-center justify-center transition-colors"
                 >
                   <Twitter className="w-5 h-5 text-white" />
-                </a>
+                </Link>
               )}
             </div>
           </div>
