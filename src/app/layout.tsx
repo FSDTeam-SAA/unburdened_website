@@ -71,6 +71,7 @@ export default async function RootLayout({
   return (
     <html suppressHydrationWarning={true} lang="en">
       <body
+        suppressHydrationWarning
         className={`${roboto.variable} ${geistSans.variable} ${geistMono.variable} font-roboto antialiased min-h-screen bg-white text-black`}
       >
         <Toaster position="top-right" />

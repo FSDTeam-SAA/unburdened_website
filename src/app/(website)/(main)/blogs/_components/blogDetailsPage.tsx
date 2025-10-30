@@ -71,7 +71,7 @@ export default function BlogDetailsPage() {
       /> */}
 
       {/* 🔹 Blog Details */}
-      <section className="container mx-auto px-2  py-4 md:py-16 mb-6">
+      <section className="container mx-auto px-2  py-4 md:py-12 mb-6">
         {/* Image */}
         <div className="w-full h-[400px] md:h-[500px] lg:h-[700px] relative rounded-2xl overflow-hidden shadow-md mb-10">
           {blog.uploadPhoto ? (

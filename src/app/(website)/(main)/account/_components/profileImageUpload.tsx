@@ -31,8 +31,8 @@ export function ProfileImageUpload({
       return
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error('Image size should be less than 5MB')
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error('Image size should be less than 10MB')
       return
     }
 
@@ -73,7 +73,7 @@ export function ProfileImageUpload({
       </div>
       <div>
         <h3 className="font-semibold text-lg">Your Profile Picture</h3>
-        <p className="text-sm text-gray-500 mt-1">PNG, JPG up to 5MB</p>
+        <p className="text-sm text-gray-500 mt-1">PNG, JPG up to 10MB</p>
         <Button onClick={onUpload} disabled={isUpdating} className="mt-3">
           {isUpdating ? (
             <>

@@ -16,6 +16,7 @@ import { ProfileImageUpload } from './profileImageUpload'
 import { ProfileForm } from './profileForm'
 import { PasswordForm } from './passwordForm'
 import { Button } from '@/components/ui/button'
+import { redirect } from 'next/navigation'
 
 export default function SettingsPage() {
   const { data: session, update: updateSession } = useSession()
@@ -156,9 +157,9 @@ export default function SettingsPage() {
   const handleLogout = async () => {
     try {
       await signOut({ redirect: true, callbackUrl: '/' })
-      toast.success('Logged out successfully 👋')
     } catch (error) {
       toast.error('Logout failed, please try again ❌')
+      console.log(error)
     }
   }
 
@@ -184,7 +185,7 @@ export default function SettingsPage() {
         {/* Logout Button (Responsive) */}
         <Button
           onClick={handleLogout}
-          className="flex items-center gap-2 bg-[#E53E3E] hover:bg-[#cc3232] text-white font-medium px-4 py-2 rounded-lg transition-colors mx-4 sm:mx-0"
+          className="flex items-center gap-2 bg-[#E53E3E] hover:bg-[#cc3232] text-white font-medium px-4 py-2 rounded-sm transition-colors mx-4 sm:mx-0"
         >
           <LogOut size={20} />
           <span>Log Out</span>
