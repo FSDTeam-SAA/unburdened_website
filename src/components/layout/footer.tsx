@@ -1,18 +1,11 @@
 'use client'
 
 import React, { useState } from 'react'
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Facebook,
-  Instagram,
-  Linkedin,
-  Twitter,
-} from 'lucide-react'
+import { Mail, Phone, MapPin, Instagram, Linkedin, Album } from 'lucide-react'
 import { Button } from '../ui/button'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { FaTiktok } from 'react-icons/fa'
 import Link from 'next/link'
 
 // ================== INTERFACE ==================
@@ -22,10 +15,10 @@ interface FooterProps {
   contactInfo?: { email: string; phone: string; address: string }
   newsletter?: { title: string; subtitle: string }
   socialLinks?: {
-    facebook?: string
     instagram?: string
     linkedin?: string
-    twitter?: string
+    substack?: string
+    tiktok?: string
   }
   copyright?: string
 }
@@ -39,7 +32,6 @@ export function Footer({
     { label: 'Services', href: '/services' },
     { label: 'Blog', href: '/blogs' },
     { label: 'Podcasts', href: '/podcast' },
-    // { label: 'Blog', href: '/blogs' },
   ],
   contactInfo = {
     email: 'support@unburdenedmind.com',
@@ -51,16 +43,16 @@ export function Footer({
     subtitle: 'Subscribe for updates & news',
   },
   socialLinks = {
-    facebook: 'https://facebook.com',
-    instagram: 'https://instagram.com',
-    linkedin: 'https://linkedin.com',
-    twitter: 'https://twitter.com',
+    instagram: 'https://www.instagram.com/unburdenedmind/',
+    substack: 'https://substack.com/@theunburdenedmind',
+    tiktok: 'https://www.tiktok.com/@unburdenedmind',
+    linkedin: 'https://www.linkedin.com/in/davidburden-theunburdenedmind/',
   },
+
   copyright = '© 2025 Unburdened Mind. All rights reserved.',
 }: FooterProps) {
   const [email, setEmail] = useState('')
 
-  //  React Query Mutation
   const subscribeMutation = useMutation({
     mutationFn: async (email: string) => {
       const res = await fetch(
@@ -69,7 +61,7 @@ export function Footer({
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email }),
-        }
+        },
       )
 
       if (!res.ok) {
@@ -129,22 +121,22 @@ export function Footer({
             </ul>
           </div>
 
-          {/* Contact Us */}
+          {/* Contact Info */}
           <div>
             <h3 className="text-[#343A40] font-semibold text-lg mb-4">
               Contact Us
             </h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-2 text-[#68706A] text-sm">
-                <Mail className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                <Mail className="w-4 h-4 mt-0.5" />
                 <span>{contactInfo.email}</span>
               </li>
               <li className="flex items-start gap-2 text-[#68706A] text-sm">
-                <Phone className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                <Phone className="w-4 h-4 mt-0.5" />
                 <span>{contactInfo.phone}</span>
               </li>
               <li className="flex items-start gap-2 text-[#68706A] text-sm">
-                <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                <MapPin className="w-4 h-4 mt-0.5" />
                 <span>{contactInfo.address}</span>
               </li>
             </ul>
@@ -161,9 +153,9 @@ export function Footer({
               <input
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-2 rounded-md border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#5A8DEE] focus:border-transparent"
+                className="flex-1 px-4 py-2 rounded-md border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#5A8DEE]"
               />
               <Button
                 onClick={handleSubscribe}
@@ -174,53 +166,56 @@ export function Footer({
               </Button>
             </div>
 
-            {/* Social Icons */}
+            {/* SOCIAL ICONS */}
             <div className="flex gap-3 mt-6">
-              {socialLinks.facebook && (
-                <Link
-                  href={socialLinks.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 bg-[#68706A] hover:bg-[#5A8DEE] rounded flex items-center justify-center transition-colors"
-                >
-                  <Facebook className="w-5 h-5 text-white" />
-                </Link>
-              )}
+              {/* Instagram */}
               {socialLinks.instagram && (
                 <Link
                   href={socialLinks.instagram}
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 bg-[#68706A] hover:bg-[#5A8DEE] rounded flex items-center justify-center transition-colors"
+                  className="w-10 h-10 bg-[#68706A] hover:bg-[#5A8DEE] rounded flex items-center justify-center"
                 >
                   <Instagram className="w-5 h-5 text-white" />
                 </Link>
               )}
+
+              {/* Substack */}
+              {socialLinks.substack && (
+                <Link
+                  href={socialLinks.substack}
+                  target="_blank"
+                  className="w-10 h-10 bg-[#68706A] hover:bg-[#5A8DEE] rounded flex items-center justify-center"
+                >
+                  <Album className="w-5 h-5 text-white" />
+                </Link>
+              )}
+
+              {/* TikTok */}
+              {socialLinks.tiktok && (
+                <Link
+                  href={socialLinks.tiktok}
+                  target="_blank"
+                  className="w-10 h-10 bg-[#68706A] hover:bg-[#5A8DEE] rounded flex items-center justify-center"
+                >
+                  <FaTiktok className="w-5 h-5 text-white" />
+                </Link>
+              )}
+
+              {/* LinkedIn */}
               {socialLinks.linkedin && (
                 <Link
                   href={socialLinks.linkedin}
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 bg-[#68706A] hover:bg-[#5A8DEE] rounded flex items-center justify-center transition-colors"
+                  className="w-10 h-10 bg-[#68706A] hover:bg-[#5A8DEE] rounded flex items-center justify-center"
                 >
                   <Linkedin className="w-5 h-5 text-white" />
-                </Link>
-              )}
-              {socialLinks.twitter && (
-                <Link
-                  href={socialLinks.twitter}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 bg-[#68706A] hover:bg-[#5A8DEE] rounded flex items-center justify-center transition-colors"
-                >
-                  <Twitter className="w-5 h-5 text-white" />
                 </Link>
               )}
             </div>
           </div>
         </div>
 
-        {/* Copyright */}
+        {/* COPYRIGHT */}
         <div className="border-t border-[#90B3F4] pt-6">
           <p className="text-center text-[#68706A] text-sm">{copyright}</p>
         </div>
