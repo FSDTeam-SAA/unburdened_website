@@ -1,7 +1,7 @@
-import NextAuth, { AuthOptions } from 'next-auth'
+import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
-export const authOptions: AuthOptions = {
+const handler = NextAuth({
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -22,7 +22,7 @@ export const authOptions: AuthOptions = {
                 email: credentials.email,
                 password: credentials.password,
               }),
-            }
+            },
           )
 
           const data = await res.json()
@@ -45,9 +45,8 @@ export const authOptions: AuthOptions = {
     }),
   ],
 
-  // 👇 FIX: Use literal type 'jwt' not string
   session: {
-    strategy: 'jwt' as const,
+    strategy: 'jwt',
   },
 
   callbacks: {
@@ -64,15 +63,13 @@ export const authOptions: AuthOptions = {
     },
 
     async session({ session, token }) {
-      if (token) {
-        session.user = {
-          id: token.id,
-          email: token.email,
-          role: token.role,
-          accessToken: token.accessToken,
-          refreshToken: token.refreshToken,
-          profileImage: token.profileImage,
-        }
+      session.user = {
+        id: token.id,
+        email: token.email,
+        role: token.role,
+        accessToken: token.accessToken,
+        refreshToken: token.refreshToken,
+        profileImage: token.profileImage,
       }
       return session
     },
@@ -83,8 +80,7 @@ export const authOptions: AuthOptions = {
   },
 
   secret: process.env.NEXTAUTH_SECRET,
-}
+})
 
-// ✅ Export correctly for Next.js App Router
-const handler = NextAuth(authOptions)
+// ONLY EXPORT METHODS (required by App Router)
 export { handler as GET, handler as POST }
